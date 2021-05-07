@@ -71,11 +71,12 @@ $ node ./dist/main.js
 Check on `.env.sample` for an example of environment variable settings and
 create a new `.env` file for your environment variable during development.
 
-| Key                        | Description            |
-| -------------------------- | ---------------------- |
-| `MONGO_URL`                | MongoDB Connection URL |
-| MONGO_INITDB_ROOT_USERNAME | MongoDB Root Username  |
-| MONGO_INITDB_ROOT_PASSWORD | MongoDB Root Password  |
+| Key                          | Description             |
+| ---------------------------- | ----------------------- |
+| `PORT`                       | Port to bind the server |
+| `MONGO_URL`                  | MongoDB Connection URL  |
+| `MONGO_INITDB_ROOT_USERNAME` | MongoDB Root Username   |
+| `MONGO_INITDB_ROOT_PASSWORD` | MongoDB Root Password   |
 
 # Contributing
 
