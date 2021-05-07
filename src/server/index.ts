@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 import nextPlugin from './plugins/next';
 import mongoosePlugin from './plugins/mongoose';
+import servicesPlugin from './plugins/services';
 import routes from './routes';
 
 export default async (): Promise<FastifyInstance> => {
@@ -22,6 +23,7 @@ export default async (): Promise<FastifyInstance> => {
   await server.register(mongoosePlugin, {
     url: new URL(process.env.MONGO_URL),
   });
+  await server.register(servicesPlugin);
 
   return server;
 };
