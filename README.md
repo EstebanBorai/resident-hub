@@ -66,6 +66,17 @@ $ node ./dist/main.js
 > event - compiled successfully
 ```
 
+## Environment Variables
+
+Check on `.env.sample` for an example of environment variable settings and
+create a new `.env` file for your environment variable during development.
+
+Key | Description
+--- | ---
+`MONGO_URL` | MongoDB Connection URL
+MONGO_INITDB_ROOT_USERNAME | MongoDB Root Username
+MONGO_INITDB_ROOT_PASSWORD | MongoDB Root Password
+
 # Contributing
 
 Every kind of contribution to this project is welcome, please, don't hesitate
