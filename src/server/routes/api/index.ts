@@ -1,3 +1,4 @@
+import auth from './auth';
 import v1 from './v1';
 
 import type {
@@ -11,6 +12,10 @@ export default function (
   _: FastifyRegisterOptions<unknown>,
   done: (err?: FastifyError) => void,
 ): void {
+  fastify.register(auth, {
+    prefix: 'auth',
+  });
+
   fastify.register(v1, {
     prefix: 'v1',
   });

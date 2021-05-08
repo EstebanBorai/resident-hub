@@ -71,12 +71,14 @@ $ node ./dist/main.js
 Check on `.env.sample` for an example of environment variable settings and
 create a new `.env` file for your environment variable during development.
 
-| Key                          | Description             |
-| ---------------------------- | ----------------------- |
-| `PORT`                       | Port to bind the server |
-| `MONGO_URL`                  | MongoDB Connection URL  |
-| `MONGO_INITDB_ROOT_USERNAME` | MongoDB Root Username   |
-| `MONGO_INITDB_ROOT_PASSWORD` | MongoDB Root Password   |
+| Key                          | Description                                                                                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `JWT_EXPIRATION`             | JWT Expiration Time. The value provided is parsed with [zeit/ms](https://github.com/vercel/ms#examples) package. Make sure you provide a compatible value. |
+| `JWT_PRIVATE_KEY`            | JWT Private Key. [Read more](https://jwt.io/introduction/)                                                                                                 |
+| `PORT`                       | Port to bind the server                                                                                                                                    |
+| `MONGO_URL`                  | MongoDB Connection URL                                                                                                                                     |
+| `MONGO_INITDB_ROOT_USERNAME` | MongoDB Root Username                                                                                                                                      |
+| `MONGO_INITDB_ROOT_PASSWORD` | MongoDB Root Password                                                                                                                                      |
 
 # Contributing
 
