@@ -1,9 +1,12 @@
 import fastify, { FastifyInstance } from 'fastify';
+import cookiePlugin from 'fastify-cookie';
+import jwtPlugin from 'fastify-jwt';
 
 import nextPlugin from './plugins/next';
 import mongoosePlugin from './plugins/mongoose';
 import servicesPlugin from './plugins/services';
 import routes from './routes';
+import { FastifyCookieOptions } from 'fastify-cookie';
 
 export default async (): Promise<FastifyInstance> => {
   const server = fastify({
@@ -13,17 +16,16 @@ export default async (): Promise<FastifyInstance> => {
     },
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    const mod = await import('dotenv');
-    const result = mod.config();
-
-    if (result.error) {
-      throw new Error('Failed to read ".env" file');
-    }
-
-    server.log.warn('Loading environment variables from .env file');
-  }
-
+  await server.register(cookiePlugin, {
+    secret: process.env.COOKIE_SIGNATURE,
+    parseOptions: {},
+  } as FastifyCookieOptions);
+  await server.register(jwtPlugin, {
+    secret: process.env.JWT_PRIVATE_KEY,
+    cookie: {
+      cookieName: process.env.JWT_COOKIE_NAME,
+    },
+  });
   await server.register(routes);
   await server.register(nextPlugin);
   await server.register(mongoosePlugin, {

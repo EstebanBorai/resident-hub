@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 
 import UserModel from '../models/user';
 
+import type { User } from '../models/user';
+
 export type CreateUserDTO = {
   firstName: string;
   lastName: string;
@@ -10,22 +12,37 @@ export type CreateUserDTO = {
 };
 
 export interface IUserService {
-  create(dto: CreateUserDTO): Promise<void>;
+  create(dto: CreateUserDTO): Promise<User>;
+  findByEmail(email: string): Promise<User | null>;
 }
 
-async function createPassword(plain: string): Promise<string> {
-  const hash = await bcrypt.hash(plain, 10);
+export default class UserService implements IUserService {
+  private async createPassword(plain: string): Promise<string> {
+    const hash = await bcrypt.hash(plain, 10);
 
-  return hash;
-}
+    return hash;
+  }
 
-export default {
-  async create(dto: CreateUserDTO): Promise<void> {
+  async create(dto: CreateUserDTO): Promise<User> {
     const user = new UserModel(dto);
-    const hash = await createPassword(dto.password);
+    const hash = await this.createPassword(dto.password);
 
     user.password = hash;
 
     await user.save();
-  },
-};
+
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await UserModel.findOne({
+      email,
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  }
+}
