@@ -14,11 +14,13 @@
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "fmt": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write \"**/*.{json,md,yml,ts,tsx,js,jsx}\"",
     "prettier": "prettier -c \"**/*.{md,json,yml,sh}\"",
-    "start": "NEXT_TELEMETRY_DISABLED=1 node ./dist/main.js"
+    "start": "NEXT_TELEMETRY_DISABLED=1 node ./dist/main.js",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.1",
     "@types/dotenv": "^8.2.0",
+    "@types/jest": "^26.0.23",
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
@@ -28,7 +30,9 @@
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
+    "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
     "ts-node-dev": "^1.1.6",
     "typescript": "^4.2.4"
