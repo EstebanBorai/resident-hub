@@ -6,6 +6,7 @@ export interface User extends Document {
   lastName: string;
   email: string;
   password: string;
+  refreshToken: string;
   validatePassword(hash: string): Promise<boolean>;
 }
 
@@ -29,6 +30,10 @@ export const UserSchema = new Schema<User, Model<User, User>>({
   password: {
     type: String,
     required: true,
+  },
+  refreshToken: {
+    type: String,
+    required: false,
   },
 });
 

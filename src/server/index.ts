@@ -23,7 +23,7 @@ export default async (): Promise<FastifyInstance> => {
   await server.register(jwtPlugin, {
     secret: process.env.JWT_PRIVATE_KEY,
     cookie: {
-      cookieName: process.env.JWT_COOKIE_NAME,
+      cookieName: process.env.JWT_TOKEN_COOKIE_NAME,
     },
   });
   await server.register(routes);

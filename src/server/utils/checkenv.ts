@@ -2,7 +2,8 @@ export default function checkenv(): void {
   const REQUIRED_ENVIRONMENT_VARIABLES = [
     'APPLICATION_DOMAIN',
     'COOKIE_SIGNATURE',
-    'JWT_COOKIE_NAME',
+    'JWT_TOKEN_COOKIE_NAME',
+    'JWT_REFRESH_TOKEN_COOKIE_NAME',
     'JWT_EXPIRATION',
     'JWT_PRIVATE_KEY',
     'NODE_ENV',

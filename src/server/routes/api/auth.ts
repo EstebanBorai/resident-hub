@@ -6,8 +6,46 @@ import type {
   FastifyError,
   FastifyInstance,
   FastifyRegisterOptions,
+  FastifyReply,
 } from 'fastify';
-import type { RegisterDTO } from '../../service/auth';
+import type { RouteGenericInterface } from 'fastify/types/route';
+import type { Server, IncomingMessage, ServerResponse } from 'http';
+
+const setTokenCookie = (
+  reply: FastifyReply,
+  token: string,
+): FastifyReply<
+  Server,
+  IncomingMessage,
+  ServerResponse,
+  RouteGenericInterface,
+  unknown
+> => {
+  return reply.setCookie('thruway::token', token, {
+    domain: process.env.APPLICATION_DOMAIN,
+    secure: process.env.NODE_ENV === 'production' && true,
+    httpOnly: true,
+    sameSite: true,
+  });
+};
+
+const setRefreshTokenCookie = (
+  reply: FastifyReply,
+  token: string,
+): FastifyReply<
+  Server,
+  IncomingMessage,
+  ServerResponse,
+  RouteGenericInterface,
+  unknown
+> => {
+  return reply.setCookie('thruway::refresh_token', token, {
+    domain: process.env.APPLICATION_DOMAIN,
+    secure: process.env.NODE_ENV === 'production' && true,
+    httpOnly: true,
+    sameSite: true,
+  });
+};
 
 export default function (
   fastify: FastifyInstance,
@@ -22,16 +60,13 @@ export default function (
         if (request.headers.authorization) {
           const authorization = request.headers.authorization;
           const credentials = basicAuth(authorization);
+          const {
+            token,
+            refreshToken,
+          } = await fastify.services.auth.authenticate(credentials);
 
-          const token = await fastify.services.auth.authenticate(credentials);
-
-          reply.setCookie('thruway::token', token, {
-            domain: process.env.APPLICATION_DOMAIN,
-            // Use HTTPS only in production
-            secure: process.env.NODE_ENV === 'production' && true,
-            httpOnly: true,
-            sameSite: true,
-          });
+          setTokenCookie(reply, token);
+          setRefreshTokenCookie(reply, refreshToken);
 
           return httpResponse.okMessage(reply, 'Authenticated');
         }
@@ -68,13 +103,37 @@ export default function (
   });
 
   fastify.route({
-    url: '/signup',
+    url: '/logout',
     method: 'POST',
     handler: async (request, reply): Promise<void> => {
       try {
-        await fastify.services.auth.register(request.body as RegisterDTO);
+        const token = request.cookies[process.env.JWT_TOKEN_COOKIE_NAME];
 
-        return httpResponse.createdMessage(reply, 'Created');
+        await fastify.services.auth.terminateSession(token);
+        reply.clearCookie(process.env.JWT_TOKEN_COOKIE_NAME);
+        reply.clearCookie(process.env.JWT_REFRESH_TOKEN_COOKIE_NAME);
+
+        return httpResponse.okMessage(reply, 'Session Refreshed');
+      } catch (error) {
+        fastify.log.error(error);
+        return httpResponse.internalServerError(reply, error);
+      }
+    },
+  });
+
+  fastify.route({
+    url: '/refresh',
+    method: 'POST',
+    handler: async (request, reply): Promise<void> => {
+      try {
+        const currentToken =
+          request.cookies[process.env.JWT_REFRESH_TOKEN_COOKIE_NAME];
+        const token = await fastify.services.auth.refreshToken(currentToken);
+
+        return httpResponse.okMessage(
+          setTokenCookie(reply, token),
+          'Session Refreshed',
+        );
       } catch (error) {
         return httpResponse.internalServerError(reply, error);
       }

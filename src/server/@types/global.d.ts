@@ -4,8 +4,10 @@ declare namespace NodeJS {
   export interface ProcessEnv {
     APPLICATION_DOMAIN: string;
     COOKIE_SIGNATURE: string;
-    JWT_COOKIE_NAME: string;
+    JWT_TOKEN_COOKIE_NAME: string;
+    JWT_REFRESH_TOKEN_COOKIE_NAME: string;
     JWT_EXPIRATION: string;
+    JWT_REFRESH_TOKEN_EXPIRATION: string;
     JWT_PRIVATE_KEY: string;
     NODE_ENV: Environment;
     PORT: string;
