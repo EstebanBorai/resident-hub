@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import UserModel from '../models/user';
 
 import type { User } from '../models/user';
+import type { ILoggerService } from './logger';
 
 export type CreateUserDTO = {
   firstName: string;
@@ -17,6 +18,12 @@ export interface IUserService {
 }
 
 export default class UserService implements IUserService {
+  private loggerService: ILoggerService;
+
+  constructor(loggerService: ILoggerService) {
+    this.loggerService = loggerService;
+  }
+
   private async createPassword(plain: string): Promise<string> {
     const hash = await bcrypt.hash(plain, 10);
 
