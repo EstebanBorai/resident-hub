@@ -1,28 +1,18 @@
 <div align="center">
-  <img src="./docs/artwork.png" height=" 118" width="518" />
-  <h1>fastify-nextjs-project</h1>
-  <h4 align="center">🐅 Project template to build a Fastify + NextJS application</h4>
+  <img src="./docs/logo.png" height="160" width="160" />
+  <h1>thruway-parking</h1>
+  <h4 align="center">
+    🅿️ Parking Lot management web application for multiple purposes, with slot
+    reservation, users and guests capabilities
+  </h4>
 </div>
 
-# Description
+# Stack
 
-This is a template project to build an application using NextJS (Server Side
-ReactJS framework) and Fastify (HTTP Server Framework).
+This application is completely build with TypeScript using Fastify and NextJS
+to power up a server with Server Side Rendering capabilities for ReactJS.
 
-NextJS is configured as a _fastify plugin_, source code for NextJS (including
-configuration files and type definitions) live inside of the `src/client`
-directory.
-
-Server source code (Fastify powered), lives inside of the `src/server` directory.
-
-By default, every route will attempt to render a page ⏤ defined under
-`src/client/pages` (read on NextJS for more details) ⏤, unless such route
-is under the `api/` route.
-
-Every `api/` prefixed route will reach directly to Fastify's router and will be
-handled as defined.
-
-This behavior is configurable on the `src/server/plugin/next.ts` file.
+Docker is also used to host a MongoDB instance.
 
 # Usage
 
@@ -71,14 +61,20 @@ $ node ./dist/main.js
 Check on `.env.sample` for an example of environment variable settings and
 create a new `.env` file for your environment variable during development.
 
-| Key                          | Description                                                                                                                                                |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `JWT_EXPIRATION`             | JWT Expiration Time. The value provided is parsed with [zeit/ms](https://github.com/vercel/ms#examples) package. Make sure you provide a compatible value. |
-| `JWT_PRIVATE_KEY`            | JWT Private Key. [Read more](https://jwt.io/introduction/)                                                                                                 |
-| `PORT`                       | Port to bind the server                                                                                                                                    |
-| `MONGO_URL`                  | MongoDB Connection URL                                                                                                                                     |
-| `MONGO_INITDB_ROOT_USERNAME` | MongoDB Root Username                                                                                                                                      |
-| `MONGO_INITDB_ROOT_PASSWORD` | MongoDB Root Password                                                                                                                                      |
+| Key                             | Description                                                                                                                                                               |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_TELEMETRY_DISABLED`       | Enable/Disable NextJS Telemery. https://nextjs.org/telemetry                                                                                                              |
+| `JWT_TOKEN_COOKIE_NAME`         | JWT cookie name for HTTP Requests                                                                                                                                         |
+| `JWT_REFRESH_TOKEN_COOKIE_NAME` | JWT refresh token cookie name for HTTP Requests                                                                                                                           |
+| `JWT_REFRESH_TOKEN_EXPIRATION`  | JWT refresh token expiration times. The value provided is parsed with [zeit/ms](https://github.com/vercel/ms#examples) package. Make sure you provide a compatible value. |
+| `APPLICATION_DOMAIN`            | Public application URL used for setting cookies on HTTP responses                                                                                                         |
+| `COOKIE_SIGNATURE`              | Secret to sign the cookie using [cookie-signature](https://www.npmjs.com/package/cookie-signature)                                                                        |
+| `JWT_EXPIRATION`                | JWT Expiration Time. The value provided is parsed with [zeit/ms](https://github.com/vercel/ms#examples) package. Make sure you provide a compatible value.                |
+| `JWT_PRIVATE_KEY`               | JWT Private Key. [Read more](https://jwt.io/introduction/)                                                                                                                |
+| `PORT`                          | Port to bind the server                                                                                                                                                   |
+| `MONGO_URL`                     | MongoDB Connection URL                                                                                                                                                    |
+| `MONGO_INITDB_ROOT_USERNAME`    | MongoDB Root Username                                                                                                                                                     |
+| `MONGO_INITDB_ROOT_PASSWORD`    | MongoDB Root Password                                                                                                                                                     |
 
 # Contributing
 
