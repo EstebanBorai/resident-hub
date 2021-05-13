@@ -14,6 +14,11 @@ to power up a server with Server Side Rendering capabilities for ReactJS.
 
 Docker is also used to host a MongoDB instance.
 
+For ReactJS components styles we are using TailwindCSS, composing utilities
+with the `@apply` and `@screen` features.
+
+Learn more here: [Composing Utilities with @apply](https://v1.tailwindcss.com/course/composing-utilities-with-apply)
+
 # Usage
 
 ## Development

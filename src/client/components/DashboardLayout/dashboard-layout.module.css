@@ -1,0 +1,9 @@
+.dashboard_layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 20%) 80%;
+  grid-template-rows: 78px auto;
+}
+
+.dashboard_main {
+  @apply p-4;
+}

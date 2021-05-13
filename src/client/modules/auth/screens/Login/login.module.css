@@ -1,0 +1,9 @@
+.login {
+  @apply flex flex-col justify-center h-screen w-screen;
+}
+
+.form_wrapper {
+  @apply mx-auto;
+
+  width: 320px;
+}

@@ -1,10 +1,13 @@
+import React from 'react';
+
+import DashboardLayout from '../components/DashboardLayout';
+
 export default function Home(): JSX.Element {
   return (
-    <section>
-      <h1>fastify + NextJS</h1>
-      <strong>
-        🐅 Project template to build a Fastify + NextJS application
-      </strong>
-    </section>
+    <DashboardLayout>
+      <h1>
+        <strong>Welcome to the Overview</strong>
+      </h1>
+    </DashboardLayout>
   );
 }
