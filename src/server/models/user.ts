@@ -3,6 +3,8 @@ import { Document, Schema, model, Model } from 'mongoose';
 
 export type Role = 'admin' | 'manager' | 'user';
 
+export const ROLES = ['admin', 'manager', 'user'];
+
 export interface User extends Document {
   email: string;
   password: string;
