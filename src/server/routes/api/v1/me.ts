@@ -7,6 +7,8 @@ import type {
 } from 'fastify';
 import httpResponse from '../../../utils/http-response';
 
+import type { Thruway } from '../../../@types/thruway';
+
 export default function (
   fastify: FastifyInstance,
   _: FastifyRegisterOptions<unknown>,

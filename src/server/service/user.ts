@@ -6,8 +6,6 @@ import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
 
 export type CreateUserDTO = {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
   role: string;

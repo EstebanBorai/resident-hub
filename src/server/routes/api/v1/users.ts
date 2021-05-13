@@ -1,3 +1,6 @@
+import httpResponse from '../../../utils/http-response';
+import { InvalidUserRole } from '../../../error/user.service';
+import { Role } from '../../../models/user';
 import type {
   FastifyError,
   FastifyInstance,
@@ -16,10 +19,9 @@ export default function (
     async (
       request: FastifyRequest<{
         Body: {
-          firstName: string;
-          lastName: string;
           email: string;
           password: string;
+          role: Role;
         };
       }>,
       reply: FastifyReply,
@@ -27,13 +29,13 @@ export default function (
       try {
         const user = await fastify.services.user.create(request.body);
 
-        reply.status(201);
-
-        return user;
+        return httpResponse.created(reply, user);
       } catch (error) {
-        return reply.status(500).send({
-          message: error.toString(),
-        });
+        if (error instanceof InvalidUserRole) {
+          return httpResponse.badRequestMessage(reply, error.message);
+        }
+
+        return httpResponse.internalServerError(reply, error);
       }
     },
   );

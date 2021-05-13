@@ -7,7 +7,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "removeComments": true
+    "removeComments": true,
+    "typeRoots": ["node_modules/@types", "src/server/@types"]
   },
   "include": ["src/main.ts", "src/server/**/*.ts"],
   "exclude": ["node_modules", "src/client"]
