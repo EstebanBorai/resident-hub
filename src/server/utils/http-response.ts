@@ -9,6 +9,8 @@ type HttpResponse = FastifyReply<
   RouteGenericInterface,
   unknown
 >;
+
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 type HttpBody = Record<string, unknown> | { [key: string]: any };
 
 export default {

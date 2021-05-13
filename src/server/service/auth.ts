@@ -4,16 +4,16 @@ import { InvalidCreadentials, UserNotFound } from '../error/user.service';
 import { ExpiredTokenProvidedForRefresh } from '../error/auth.service';
 
 import type { SignOptions } from 'jsonwebtoken';
+import type { Thruway } from '../@types/thruway';
 import type { Credentials } from '../utils/basic-auth';
-import type { User } from '../models/user';
+import type { Role, User } from '../models/user';
 import type { IUserService } from './user';
-import { ILoggerService } from './logger';
+import type { ILoggerService } from './logger';
 
 export type RegisterDTO = {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
+  role: Role;
 };
 
 export type Tokens = {

@@ -1,3 +1,5 @@
+import { Role } from '../models/user';
+
 declare namespace Thruway {
   interface JwtToken {
     email: string;
@@ -6,8 +8,7 @@ declare namespace Thruway {
   }
 
   interface User {
-    firstName: string;
-    lastName: string;
     email: string;
+    role: Role;
   }
 }

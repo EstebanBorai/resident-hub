@@ -1,3 +1,4 @@
+import { Role } from '../models/user';
 import type { Services } from '../plugins/services';
 
 async function createAdmin(services: Services): Promise<void> {
@@ -9,11 +10,9 @@ async function createAdmin(services: Services): Promise<void> {
     const password = ADMIN_PASSWORD ? ADMIN_PASSWORD : 'root';
 
     await services.user.create({
-      firstName: 'Bruce',
-      lastName: 'Wayne',
       email: ADMIN_EMAIL,
       password,
-      role: 'admin',
+      role: Role.Admin,
     });
 
     services.logger.info('"admin" user created with success');

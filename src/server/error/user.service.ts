@@ -13,3 +13,11 @@ export class InvalidCreadentials extends Error {
     this.name = 'InvalidCreadentials';
   }
 }
+
+export class InvalidUserRole extends Error {
+  constructor() {
+    super('The "role" value should be one of: "admin", "manager", or "user"');
+
+    this.name = 'InvalidUserRole';
+  }
+}
