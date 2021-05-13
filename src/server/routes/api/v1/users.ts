@@ -5,6 +5,7 @@ import type {
   FastifyReply,
   FastifyRequest,
 } from 'fastify';
+import type { Role } from '../../../models/user';
 
 export default function (
   fastify: FastifyInstance,
@@ -16,10 +17,9 @@ export default function (
     async (
       request: FastifyRequest<{
         Body: {
-          firstName: string;
-          lastName: string;
           email: string;
           password: string;
+          role?: Role;
         };
       }>,
       reply: FastifyReply,
