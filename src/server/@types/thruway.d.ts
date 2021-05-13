@@ -6,8 +6,6 @@ declare namespace Thruway {
   }
 
   interface User {
-    firstName: string;
-    lastName: string;
     email: string;
   }
 }
