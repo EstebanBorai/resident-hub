@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 import { Document, Schema, model, Model } from 'mongoose';
 
+export type Role = 'admin' | 'manager' | 'user';
+
 export interface User extends Document {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
+  role: Role;
   refreshToken: string;
   validatePassword(hash: string): Promise<boolean>;
 }
