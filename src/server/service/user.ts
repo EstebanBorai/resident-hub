@@ -2,14 +2,13 @@ import bcrypt from 'bcrypt';
 
 import UserModel from '../models/user';
 
-import type { User } from '../models/user';
+import type { User, Role } from '../models/user';
 import type { ILoggerService } from './logger';
 
 export type CreateUserDTO = {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
+  role?: Role;
 };
 
 export interface IUserService {
@@ -31,7 +30,7 @@ export default class UserService implements IUserService {
   }
 
   async create(dto: CreateUserDTO): Promise<User> {
-    const user = new UserModel(dto);
+    const user = new UserModel({ role: dto.role ?? 'user', ...dto });
     const hash = await this.createPassword(dto.password);
 
     user.password = hash;
