@@ -12,14 +12,6 @@ export interface User extends Document {
 }
 
 export const UserSchema = new Schema<User, Model<User, User>>({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
   email: {
     type: String,
     required: true,
@@ -29,6 +21,10 @@ export const UserSchema = new Schema<User, Model<User, User>>({
     },
   },
   password: {
+    type: String,
+    required: true,
+  },
+  role: {
     type: String,
     required: true,
   },
@@ -46,8 +42,6 @@ UserSchema.methods.validatePassword = async function (
 
 UserSchema.methods.toJSON = function (): Thruway.User {
   return {
-    firstName: this.firstName,
-    lastName: this.lastName,
     email: this.email,
   };
 };
