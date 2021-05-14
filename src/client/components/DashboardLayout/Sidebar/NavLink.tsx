@@ -6,17 +6,17 @@ import styles from './sidebar.module.css';
 
 type Props = {
   href: string;
-  text: string;
+  children: JSX.Element;
 };
 
-export default function Sidebar({ href, text }: Props): JSX.Element {
+export default function Sidebar({ href, children }: Props): JSX.Element {
   const router = useRouter();
 
   return (
     <li>
       <Link href={href}>
         <a className={router.pathname === href ? styles.active : undefined}>
-          <span>{text}</span>
+          <span>{children}</span>
         </a>
       </Link>
     </li>

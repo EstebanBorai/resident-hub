@@ -1,6 +1,6 @@
 .dashboard_layout {
   display: grid;
-  grid-template-columns: minmax(200px, 20%) 80%;
+  grid-template-columns: 70px auto;
   grid-template-rows: 78px auto;
 }
 

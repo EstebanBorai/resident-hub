@@ -1,5 +1,5 @@
 .sidebar {
-  @apply bg-white p-4 shadow;
+  @apply bg-white shadow pt-2;
 
   height: calc(100vh - 78px);
   grid-column: 1 / 1;
@@ -16,10 +16,19 @@
       }
 
       a {
-        @apply inline-block px-3 py-2 rounded h-full w-full;
-        @apply text-gray-300;
+        @apply flex rounded h-full w-full;
+        @apply justify-center items-center text-gray-300;
 
+        height: 55px;
+        margin: 0 auto 1rem auto;
         transition: 100ms background-color ease-in;
+        width: 55px;
+
+        span {
+          display: inline-block;
+          height: 30px;
+          width: 30px;
+        }
 
         &:hover {
           @apply cursor-pointer bg-primary text-white;
