@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 
-import UserModel from '../models/user';
+import UserModel, { Role } from '../models/user';
 
-import type { User, Role } from '../models/user';
+import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
 
 export type CreateUserDTO = {

@@ -5,7 +5,7 @@ import type {
   FastifyReply,
   FastifyRequest,
 } from 'fastify';
-import type { Role } from '../../../models/user';
+import { Role } from '../../../models/user';
 
 export default function (
   fastify: FastifyInstance,
