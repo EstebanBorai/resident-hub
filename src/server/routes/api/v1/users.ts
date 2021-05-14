@@ -19,7 +19,7 @@ export default function (
         Body: {
           email: string;
           password: string;
-          role?: Role;
+          role: Role;
         };
       }>,
       reply: FastifyReply,

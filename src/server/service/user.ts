@@ -8,7 +8,7 @@ import type { ILoggerService } from './logger';
 export type CreateUserDTO = {
   email: string;
   password: string;
-  role?: Role;
+  role: Role;
 };
 
 export interface IUserService {
@@ -30,6 +30,10 @@ export default class UserService implements IUserService {
   }
 
   async create(dto: CreateUserDTO): Promise<User> {
+    if (!dto.role) {
+      throw new Error('"role" is a required field!');
+    }
+
     const user = new UserModel(dto);
     const hash = await this.createPassword(dto.password);
 
