@@ -29,6 +29,8 @@ export const UserSchema = new Schema<User, Model<User, User>>({
   role: {
     type: String,
     required: true,
+    enum: ['admin', 'manager', 'user'],
+    default: 'user',
   },
   refreshToken: {
     type: String,
