@@ -12,7 +12,7 @@ export type CreateUserDTO = {
 };
 
 export interface IUserService {
-  create(dto: CreateUserDTO): Promise<User>;
+  create(dto: CreateUserDTO, email: string): Promise<User>;
   findByEmail(email: string): Promise<User | null>;
 }
 
@@ -29,9 +29,26 @@ export default class UserService implements IUserService {
     return hash;
   }
 
-  async create(dto: CreateUserDTO): Promise<User> {
+  async create(dto: CreateUserDTO, email: string): Promise<User> {
+    const existentUser = await this.findByEmail(email);
     if (!dto.role) {
       throw new Error('"role" is a required field!');
+    }
+
+    if (existentUser.role === 'admin') {
+      if (dto.role !== 'manager') {
+        throw new Error('Action not allowed admin role');
+      }
+    }
+
+    if (existentUser.role === 'manager') {
+      if (dto.role !== 'user') {
+        throw new Error('Action not allowed for manager role');
+      }
+    }
+
+    if (existentUser.role === 'user') {
+      throw new Error('Action not allowed for user role');
     }
 
     const user = new UserModel(dto);

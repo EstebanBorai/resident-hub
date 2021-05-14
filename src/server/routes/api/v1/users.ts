@@ -25,7 +25,10 @@ export default function (
       reply: FastifyReply,
     ) => {
       try {
-        const user = await fastify.services.user.create(request.body);
+        const user = await fastify.services.user.create(
+          request.body,
+          fastify.user.email,
+        );
 
         reply.status(201);
 
