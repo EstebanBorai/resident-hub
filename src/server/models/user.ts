@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
 import { Document, Schema, model, Model } from 'mongoose';
 
-export type Role = 'admin' | 'manager' | 'user';
-
-export const ROLES = ['admin', 'manager', 'user'];
+export enum Role {
+  Admin = 'admin',
+  Manager = 'manager',
+  User = 'user',
+}
 
 export interface User extends Document {
   email: string;
