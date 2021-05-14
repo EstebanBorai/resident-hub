@@ -32,7 +32,7 @@ export const UserSchema = new Schema<User, Model<User, User>>({
     type: String,
     required: true,
     enum: ['admin', 'manager', 'user'],
-    default: 'user',
+    default: Role.User,
   },
   refreshToken: {
     type: String,
