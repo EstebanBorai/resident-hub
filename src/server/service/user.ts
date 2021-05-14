@@ -30,7 +30,7 @@ export default class UserService implements IUserService {
   }
 
   async create(dto: CreateUserDTO): Promise<User> {
-    const user = new UserModel({ role: dto.role ?? 'user', ...dto });
+    const user = new UserModel(dto);
     const hash = await this.createPassword(dto.password);
 
     user.password = hash;
