@@ -41,8 +41,39 @@ export default class UserService implements IUserService {
     }
   }
 
-  async create(dto: CreateUserDTO): Promise<User> {
+  private async checkPermission(email: string, role: Role) {
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      throw new Error(`User with email "${email}" does not exists`);
+    }
+
+    if (user.role === Role.Admin) {
+      if (role !== Role.Manager) {
+        throw new Error(
+          'Admin user does not have permission for creating this user type',
+        );
+      }
+    }
+
+    if (user.role === Role.Manager) {
+      if (role !== Role.User) {
+        throw new Error(
+          'Manager user does not have permission for creating this user type',
+        );
+      }
+    }
+
+    if (user.role === Role.User) {
+      throw new Error(
+        'User does not have permission to create others user type',
+      );
+    }
+  }
+
+  async create(dto: CreateUserDTO, email: string): Promise<User> {
     this.checkRoles(dto.role);
+    await this.checkPermission(email, dto.role);
     const user = new UserModel(dto);
     const hash = await this.createPassword(dto.password);
 
