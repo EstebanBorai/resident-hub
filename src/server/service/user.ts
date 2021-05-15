@@ -4,6 +4,7 @@ import UserModel, { Role } from '../models/user';
 
 import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
+import { InvalidUserRole } from '../error/user.service';
 
 export type CreateUserDTO = {
   email: string;
@@ -37,7 +38,7 @@ export default class UserService implements IUserService {
     ];
 
     if (!ROLES.includes(role)) {
-      throw new Error(`Role "${role}" does not exists`);
+      throw new InvalidUserRole();
     }
   }
 
