@@ -1,3 +1,6 @@
+import httpResponse from '../../../utils/http-response';
+import { InvalidUserRole } from '../../../error/user.service';
+import { Role } from '../../../models/user';
 import type {
   FastifyError,
   FastifyInstance,
@@ -5,8 +8,6 @@ import type {
   FastifyReply,
   FastifyRequest,
 } from 'fastify';
-import { Role } from '../../../models/user';
-import httpResponse from '../../../utils/http-response';
 
 export default function (
   fastify: FastifyInstance,
@@ -39,6 +40,10 @@ export default function (
 
         return user;
       } catch (error) {
+        if (error instanceof InvalidUserRole) {
+          return httpResponse.badRequestMessage(reply, error.message);
+        }
+
         return httpResponse.internalServerError(reply, error);
       }
     },
