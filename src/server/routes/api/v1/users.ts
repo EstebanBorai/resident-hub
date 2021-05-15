@@ -6,6 +6,7 @@ import type {
   FastifyRequest,
 } from 'fastify';
 import { Role } from '../../../models/user';
+import httpResponse from '../../../utils/http-response';
 
 export default function (
   fastify: FastifyInstance,
@@ -37,11 +38,8 @@ export default function (
         reply.status(201);
 
         return user;
-        return '';
       } catch (error) {
-        return reply.status(500).send({
-          message: error.toString(),
-        });
+        return httpResponse.internalServerError(reply, error);
       }
     },
   );
