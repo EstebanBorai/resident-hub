@@ -25,14 +25,19 @@ export default function (
       reply: FastifyReply,
     ) => {
       try {
-        const user = await fastify.services.user.create(
-          request.body,
+        const currentUser = await fastify.services.user.findByEmail(
           request.user.email,
+        );
+
+        const user = await fastify.services.user.create(
+          currentUser,
+          request.body,
         );
 
         reply.status(201);
 
         return user;
+        return '';
       } catch (error) {
         return reply.status(500).send({
           message: error.toString(),

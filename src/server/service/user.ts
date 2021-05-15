@@ -12,7 +12,7 @@ export type CreateUserDTO = {
 };
 
 export interface IUserService {
-  create(dto: CreateUserDTO, email: string): Promise<User>;
+  create(currentUser: User, dto: CreateUserDTO): Promise<User>;
   findByEmail(email: string): Promise<User | null>;
 }
 
@@ -71,9 +71,9 @@ export default class UserService implements IUserService {
     }
   }
 
-  async create(dto: CreateUserDTO, email: string): Promise<User> {
+  async create(currentUser: User, dto: CreateUserDTO): Promise<User> {
     this.checkRoles(dto.role);
-    await this.checkPermission(email, dto.role);
+    await this.checkPermission(currentUser.role, dto.role);
     const user = new UserModel(dto);
     const hash = await this.createPassword(dto.password);
 
