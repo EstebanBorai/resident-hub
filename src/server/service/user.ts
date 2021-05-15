@@ -29,28 +29,20 @@ export default class UserService implements IUserService {
     return hash;
   }
 
-  async create(dto: CreateUserDTO, email: string): Promise<User> {
-    const existentUser = await this.findByEmail(email);
-    if (!dto.role) {
-      throw new Error('"role" is a required field!');
-    }
+  private checkRoles(role: string): void {
+    const ROLES = [
+      Role.Admin as string,
+      Role.Manager as string,
+      Role.User as string,
+    ];
 
-    if (existentUser.role === 'admin') {
-      if (dto.role !== 'manager') {
-        throw new Error('Action not allowed admin role');
-      }
+    if (!ROLES.includes(role)) {
+      throw new Error(`Role "${role}" does not exists`);
     }
+  }
 
-    if (existentUser.role === 'manager') {
-      if (dto.role !== 'user') {
-        throw new Error('Action not allowed for manager role');
-      }
-    }
-
-    if (existentUser.role === 'user') {
-      throw new Error('Action not allowed for user role');
-    }
-
+  async create(dto: CreateUserDTO): Promise<User> {
+    this.checkRoles(dto.role);
     const user = new UserModel(dto);
     const hash = await this.createPassword(dto.password);
 
