@@ -5,15 +5,14 @@ import { ExpiredTokenProvidedForRefresh } from '../error/auth.service';
 
 import type { SignOptions } from 'jsonwebtoken';
 import type { Credentials } from '../utils/basic-auth';
-import type { User } from '../models/user';
+import type { Role, User } from '../models/user';
 import type { IUserService } from './user';
 import { ILoggerService } from './logger';
 
 export type RegisterDTO = {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
+  role: Role;
 };
 
 export type Tokens = {
@@ -95,7 +94,7 @@ export default class AuthService implements IAuthService {
   }
 
   async register(dto: RegisterDTO): Promise<void> {
-    await this.userService.create(dto);
+    await this.userService.create(dto, 'admin@admin.com');
   }
 
   async refreshToken(refreshToken: string): Promise<string> {
