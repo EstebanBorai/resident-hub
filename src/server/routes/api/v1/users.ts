@@ -27,7 +27,7 @@ export default function (
       try {
         const user = await fastify.services.user.create(
           request.body,
-          fastify.user.email,
+          request.user.email,
         );
 
         reply.status(201);
