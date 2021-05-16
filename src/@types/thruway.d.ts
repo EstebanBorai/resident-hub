@@ -1,4 +1,4 @@
-import { Role } from '../models/user';
+import { Role } from '../server/models/user';
 
 declare namespace Thruway {
   interface JwtToken {
