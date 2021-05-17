@@ -15,6 +15,7 @@ function App({
   pageProps: Record<string, unknown>;
 }): JSX.Element {
   axios.defaults.baseURL = '/';
+  axios.defaults.withCredentials = true;
 
   return (
     <UserContextProvider>

@@ -744,6 +744,13 @@
   dependencies:
     dotenv "*"
 
+"@types/fastify-cors@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/fastify-cors/-/fastify-cors-2.1.0.tgz#cf09d8f2726c23a6eca8149de26ab19f80bfcbb4"
+  integrity sha512-o01k3tVq/6kNDv2Q+STSHOsgRPD1jEL5kzhBp6RFu0VSHdyUW6WnOctuS1gC9mdlZyuldGR0Eo8vdkP8ZrPa8g==
+  dependencies:
+    fastify-cors "*"
+
 "@types/fastify-jwt@^0.8.1":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@types/fastify-jwt/-/fastify-jwt-0.8.1.tgz#50f5ff30abd2a1f6e54b7e83480ea8c58b132228"
@@ -2757,6 +2764,14 @@ fastify-cookie@^5.3.0:
     cookie "^0.4.0"
     cookie-signature "^1.1.0"
     fastify-plugin "^3.0.0"
+
+fastify-cors@*, fastify-cors@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/fastify-cors/-/fastify-cors-6.0.1.tgz#300e0f1cbeedda19d9de284e9cf05c65842c182b"
+  integrity sha512-eeNTdQNmBsqHL87we+X74n9+H0hTDX0cXGVdyZjGf9om2pZfigAZwuSxaUUE2pLP9tp5+rEd5kejKQ8+ZCvAoA==
+  dependencies:
+    fastify-plugin "^3.0.0"
+    vary "^1.1.2"
 
 fastify-error@^0.3.0:
   version "0.3.1"
@@ -7116,6 +7131,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+vary@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
+  integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
 verror@1.10.0:
   version "1.10.0"

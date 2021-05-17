@@ -18,7 +18,6 @@ UserContext.displayName = 'UserContext';
 
 export function UserContextProvider({ children }: Props): JSX.Element {
   const [user, setUser] = useState<Thruway.User | null>(null);
-
   const login = async (email: string, password: string): Promise<void> => {
     const loginResponse = await axios.post(
       'api/auth/login',
