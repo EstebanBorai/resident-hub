@@ -2,6 +2,8 @@ declare namespace NodeJS {
   export type Environment = 'production' | 'development' | 'testing';
 
   export interface ProcessEnv {
+    ADMIN_EMAIL: string;
+    ADMIN_PASSWORD?: string;
     APPLICATION_DOMAIN: string;
     COOKIE_SIGNATURE: string;
     JWT_TOKEN_COOKIE_NAME: string;
