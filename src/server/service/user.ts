@@ -6,6 +6,8 @@ import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
 
 export type CreateUserDTO = {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   role: string;
@@ -21,26 +23,6 @@ export default class UserService implements IUserService {
 
   constructor(loggerService: ILoggerService) {
     this.loggerService = loggerService;
-    this.createAdmin();
-  }
-
-  private async createAdmin(): Promise<void> {
-    const existentAdmin = await UserModel.findOne({ role: 'admin' });
-
-    if (existentAdmin) {
-      return this.loggerService.info('Admin user already exists');
-    }
-
-    try {
-      await this.create({
-        email: 'admin@gmail.com',
-        password: 'admin123',
-        role: 'admin',
-      });
-      this.loggerService.info('Admin user created successfully');
-    } catch (error) {
-      this.loggerService.error('Was an error while creating admin user');
-    }
   }
 
   private async createPassword(plain: string): Promise<string> {
