@@ -20,12 +20,16 @@ export function UserContextProvider({ children }: Props): JSX.Element {
   const [user, setUser] = useState<Thruway.User | null>(null);
 
   const login = async (email: string, password: string): Promise<void> => {
-    const loginResponse = await axios.post('api/auth/login', {
-      auth: {
-        username: email,
-        password,
+    const loginResponse = await axios.post(
+      'api/auth/login',
+      {},
+      {
+        auth: {
+          username: email,
+          password,
+        },
       },
-    });
+    );
 
     if (loginResponse.status === 200) {
       const meResponse = await axios.get('api/v1/me');
