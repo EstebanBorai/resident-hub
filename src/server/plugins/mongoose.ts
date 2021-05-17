@@ -13,16 +13,20 @@ export default fp(
     options: MongooseConfig,
     next: (err?: Error) => void,
   ): Promise<void> => {
-    const mongodbConnection = mongoose.connect(options.url.toString(), {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-    });
+    try {
+      const mongodbConnection = await mongoose.connect(options.url.toString(), {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+      });
 
-    fastify.decorate('mongoose', mongodbConnection);
+      fastify.decorate('mongoose', mongodbConnection);
 
-    next();
+      next();
+    } catch (error) {
+      next(error);
+    }
   },
   {
     name: 'mongoose',
