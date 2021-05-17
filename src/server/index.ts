@@ -1,4 +1,5 @@
 import fastify, { FastifyInstance } from 'fastify';
+import corsPlugin from 'fastify-cors';
 import cookiePlugin from 'fastify-cookie';
 import jwtPlugin from 'fastify-jwt';
 
@@ -17,6 +18,13 @@ export default async (): Promise<FastifyInstance> => {
     },
   });
 
+  await server.register(corsPlugin, {
+    credentials: true,
+    origin: 'http://localhost:3000',
+    exposedHeaders: ['set-cookie'],
+    methods: ['get', 'post', 'put', 'patch', 'delete'],
+    allowedHeaders: ['origin, content-type, accept'],
+  });
   await server.register(cookiePlugin, {
     secret: process.env.COOKIE_SIGNATURE,
     parseOptions: {},
