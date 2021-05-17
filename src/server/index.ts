@@ -2,6 +2,7 @@ import fastify, { FastifyInstance } from 'fastify';
 import cookiePlugin from 'fastify-cookie';
 import jwtPlugin from 'fastify-jwt';
 
+import bootstrap from './utils/bootstrap';
 import nextPlugin from './plugins/next';
 import mongoosePlugin from './plugins/mongoose';
 import servicesPlugin from './plugins/services';
@@ -32,6 +33,10 @@ export default async (): Promise<FastifyInstance> => {
     url: new URL(process.env.MONGO_URL),
   });
   await server.register(servicesPlugin);
+
+  // This should always run before returning the `server` instance
+  // which means that all reources required on runtime are up and running
+  await bootstrap(server.services);
 
   return server;
 };
