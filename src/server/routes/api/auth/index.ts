@@ -27,6 +27,7 @@ const setTokenCookie = (
     secure: process.env.NODE_ENV === 'production' && true,
     httpOnly: true,
     sameSite: true,
+    path: '/',
   });
 };
 
@@ -45,6 +46,7 @@ const setRefreshTokenCookie = (
     secure: process.env.NODE_ENV === 'production' && true,
     httpOnly: true,
     sameSite: true,
+    path: '/',
   });
 };
 
