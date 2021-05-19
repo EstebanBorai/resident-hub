@@ -28,8 +28,7 @@ export default function Avatar(): JSX.Element {
               width: '100%',
             }}
           >
-            {user.firstName.charAt(0)}
-            {user.lastName.charAt(0)}
+            {user.email.charAt(0)}
           </figure>
         </div>
       </div>

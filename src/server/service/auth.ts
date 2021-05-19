@@ -4,7 +4,7 @@ import { InvalidCreadentials, UserNotFound } from '../error/user.service';
 import { ExpiredTokenProvidedForRefresh } from '../error/auth.service';
 
 import type { SignOptions } from 'jsonwebtoken';
-import type { Thruway } from '../@types/thruway';
+import type { Thruway } from '../../@types/thruway';
 import type { Credentials } from '../utils/basic-auth';
 import type { Role, User } from '../models/user';
 import type { IUserService } from './user';
