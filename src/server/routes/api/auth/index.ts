@@ -1,6 +1,7 @@
-import basicAuth, { BasicAuthError } from '../../utils/basic-auth';
-import { InvalidCreadentials, UserNotFound } from '../../error/user.service';
-import httpResponse from '../../utils/http-response';
+import basicAuth, { BasicAuthError } from '../../../utils/basic-auth';
+import { InvalidCreadentials, UserNotFound } from '../../../error/user.service';
+import httpResponse from '../../../utils/http-response';
+import validationSchema from './validation-schema';
 
 import type {
   FastifyError,
@@ -55,6 +56,9 @@ export default function (
   fastify.route({
     url: '/login',
     method: 'POST',
+    schema: {
+      headers: validationSchema.login.headers,
+    },
     handler: async (request, reply): Promise<void> => {
       try {
         if (request.headers.authorization) {
