@@ -1,5 +1,6 @@
 import me from './me';
 import users from './users';
+import parkingLot from './parking-lot';
 
 import type {
   FastifyError,
@@ -26,6 +27,10 @@ export default function (
 
   fastify.register(users, {
     prefix: 'users',
+  });
+
+  fastify.register(parkingLot, {
+    prefix: 'parking',
   });
 
   done();

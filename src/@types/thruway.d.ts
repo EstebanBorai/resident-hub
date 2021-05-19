@@ -11,4 +11,8 @@ declare namespace Thruway {
     email: string;
     role: Role;
   }
+  interface ParkingLot {
+    id: string;
+    name: string;
+  }
 }
