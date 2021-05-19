@@ -1,6 +1,8 @@
-import httpResponse from '../../../utils/http-response';
-import { InvalidUserRole } from '../../../error/user.service';
-import { Role } from '../../../models/user';
+import httpResponse from '../../../../utils/http-response';
+import { InvalidUserRole } from '../../../../error/user.service';
+import { Role } from '../../../../models/user';
+import validationSchema from './validation-schema';
+
 import type {
   FastifyError,
   FastifyInstance,
@@ -16,6 +18,7 @@ export default function (
 ): void {
   fastify.post(
     '/',
+    { schema: validationSchema.createUserSchema },
     async (
       request: FastifyRequest<{
         Body: {
