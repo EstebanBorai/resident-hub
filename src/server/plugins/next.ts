@@ -4,7 +4,7 @@ import Next from 'next';
 
 import type { ServerResponse } from 'http';
 import type { FastifyInstance, RegisterOptions } from 'fastify';
-import type { Thruway } from '../@types/thruway';
+import type { Thruway } from '../../@types/thruway';
 
 export default fp(
   async (

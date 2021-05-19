@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Document, Schema, model, Model } from 'mongoose';
 
-import type { Thruway } from '../@types/thruway';
+import type { Thruway } from '../../@types/thruway';
 
 export enum Role {
   Admin = 'admin',

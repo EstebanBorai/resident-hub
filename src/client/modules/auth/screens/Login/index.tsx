@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 
 import * as F from '../../../../components/Form';
@@ -14,7 +14,7 @@ type LoginForm = {
 };
 
 export default function LoginScreen(): JSX.Element {
-  const { login } = useUser();
+  const { login, resumeSession } = useUser();
   const formik = useFormik<LoginForm>({
     initialValues: {
       email: '',
@@ -24,6 +24,12 @@ export default function LoginScreen(): JSX.Element {
       await login(values.email, values.password);
     },
   });
+
+  useEffect(() => {
+    (async () => {
+      await resumeSession();
+    })();
+  }, []);
 
   return (
     <section className={styles.login}>
