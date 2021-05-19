@@ -7,6 +7,14 @@
   </h4>
 </div>
 
+<div align="center">
+
+![Build](https://github.com/EstebanBorai/thruway-parking/workflows/build/badge.svg)
+![Test](https://github.com/EstebanBorai/thruway-parking/workflows/test/badge.svg)
+![Lint](https://github.com/EstebanBorai/thruway-parking/workflows/lint/badge.svg)
+
+</div>
+
 # Stack
 
 This application is completely build with TypeScript using Fastify and NextJS
