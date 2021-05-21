@@ -37,7 +37,7 @@ export default async function bootstrap(services: Services): Promise<void> {
   try {
     await createAdmin(services);
   } catch (error) {
-    services.logger.error('An error ocurred during "bootsrap" process');
+    services.logger.error('An error ocurred during the "bootstrap" process');
     services.logger.error(error);
   }
 }
