@@ -30,7 +30,7 @@ export default function (
           request.body,
         );
 
-        return httpResponse.created(reply, parkingLot);
+        return httpResponse.created(reply, parkingLot.toPresentationLayer());
       } catch (error) {
         return httpResponse.internalServerError(reply, error);
       }
@@ -57,7 +57,7 @@ export default function (
           ...request.body,
         });
 
-        return httpResponse.ok(reply, parkingLot);
+        return httpResponse.ok(reply, parkingLot.toPresentationLayer());
       } catch (error) {
         if (error instanceof UnexistentParkingLotID) {
           return httpResponse.badRequestMessage(
@@ -83,9 +83,11 @@ export default function (
       reply: FastifyReply,
     ) => {
       try {
-        await fastify.services.parkingLot.remove(request.params.id);
+        const removed = await fastify.services.parkingLot.remove(
+          request.params.id,
+        );
 
-        return httpResponse.okMessage(reply, 'Parking Lot removed!');
+        return httpResponse.ok(reply, removed.toPresentationLayer());
       } catch (error) {
         if (error instanceof UnexistentParkingLotID) {
           return httpResponse.badRequestMessage(

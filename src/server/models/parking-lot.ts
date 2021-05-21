@@ -4,6 +4,7 @@ import type { Thruway } from '../../@types/thruway';
 
 export interface ParkingLot extends Document {
   name: string;
+  toPresentationLayer(): Thruway.ParkingLot;
 }
 
 export const ParkingLotSchema = new Schema<
@@ -21,7 +22,7 @@ export const ParkingLotSchema = new Schema<
   },
 );
 
-ParkingLotSchema.methods.toJSON = function (): Thruway.ParkingLot {
+ParkingLotSchema.methods.toPresentationLayer = function (): Thruway.ParkingLot {
   return {
     id: this._id,
     name: this.name,
