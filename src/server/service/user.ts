@@ -4,6 +4,7 @@ import UserModel from '../models/user';
 
 import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
+import { UserByEmailNotFound } from '../error/user.service';
 
 export type CreateUserDTO = {
   email: string;
@@ -13,7 +14,7 @@ export type CreateUserDTO = {
 
 export interface IUserService {
   create(dto: CreateUserDTO): Promise<User>;
-  findByEmail(email: string): Promise<User | null>;
+  findByEmail(email: string): Promise<User>;
 }
 
 export default class UserService implements IUserService {
@@ -40,13 +41,13 @@ export default class UserService implements IUserService {
     return user;
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<User> {
     const user = await UserModel.findOne({
       email,
     });
 
     if (!user) {
-      return null;
+      throw new UserByEmailNotFound(email);
     }
 
     return user;

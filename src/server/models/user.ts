@@ -16,38 +16,44 @@ export interface User extends Document {
   refreshToken: string;
   validatePassword(hash: string): Promise<boolean>;
   isAllowed(requiredRoles: Role[]): boolean;
+  toPresentationLayer(): Thruway.User;
 }
 
-export const UserSchema = new Schema<User, Model<User, User>>({
-  email: {
-    type: String,
-    required: true,
-    index: {
-      unique: true,
-      dropDups: true,
+export const UserSchema = new Schema<User, Model<User, User>>(
+  {
+    email: {
+      type: String,
+      required: true,
+      index: {
+        unique: true,
+        dropDups: true,
+      },
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: {
+        values: [
+          Role.Admin.toString(),
+          Role.Manager.toString(),
+          Role.User.toString(),
+        ],
+        message: `"{VALUE}" is not a valid "UserModel.role" value`,
+      },
+    },
+    refreshToken: {
+      type: String,
+      required: false,
     },
   },
-  password: {
-    type: String,
-    required: true,
+  {
+    versionKey: false,
   },
-  role: {
-    type: String,
-    required: true,
-    enum: {
-      values: [
-        Role.Admin.toString(),
-        Role.Manager.toString(),
-        Role.User.toString(),
-      ],
-      message: `"{VALUE}" is not a valid "UserModel.role" value`,
-    },
-  },
-  refreshToken: {
-    type: String,
-    required: false,
-  },
-});
+);
 
 UserSchema.methods.validatePassword = async function (
   plain: string,
@@ -59,7 +65,7 @@ UserSchema.methods.isAllowed = function (requiredRoles: Role[]): boolean {
   return requiredRoles.includes(this.role);
 };
 
-UserSchema.methods.toJSON = function (): Thruway.User {
+UserSchema.methods.toPresentationLayer = function (): Thruway.User {
   return {
     email: this.email,
     role: this.role,

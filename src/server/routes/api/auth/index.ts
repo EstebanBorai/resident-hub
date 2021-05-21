@@ -1,5 +1,8 @@
 import basicAuth, { BasicAuthError } from '../../../utils/basic-auth';
-import { InvalidCreadentials, UserNotFound } from '../../../error/user.service';
+import {
+  InvalidCreadentials,
+  UserByEmailNotFound,
+} from '../../../error/user.service';
 import httpResponse from '../../../utils/http-response';
 import validationSchema from './validation-schema';
 
@@ -93,7 +96,7 @@ export default function (
         }
 
         if (
-          error instanceof UserNotFound ||
+          error instanceof UserByEmailNotFound ||
           error instanceof InvalidCreadentials
         ) {
           return httpResponse.forbiddenMessage(
