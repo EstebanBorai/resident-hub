@@ -27,7 +27,7 @@ async function createAdmin(services: Services): Promise<void> {
       return;
     }
 
-    services.logger.info('No "admin" user were created');
+    services.logger.info('No "admin" user was created');
 
     return;
   } catch (error) {

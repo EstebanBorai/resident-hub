@@ -1,10 +1,13 @@
 import bcrypt from 'bcrypt';
 
-import UserModel from '../models/user';
+import UserModel, { Role } from '../models/user';
+import {
+  AdminUserAlreadyExists,
+  UserByEmailNotFound,
+} from '../error/user.service';
 
 import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
-import { UserByEmailNotFound } from '../error/user.service';
 
 export type CreateUserDTO = {
   email: string;
@@ -31,6 +34,19 @@ export default class UserService implements IUserService {
   }
 
   async create(dto: CreateUserDTO): Promise<User> {
+    if (dto.role === Role.Admin) {
+      // check if no `Admin` is already created
+      // if it is, an error is thrown as only one
+      // `Admin` user should exist
+      const adminUser = await UserModel.findOne({
+        role: Role.Admin,
+      });
+
+      if (adminUser) {
+        throw new AdminUserAlreadyExists();
+      }
+    }
+
     const user = new UserModel(dto);
     const hash = await this.createPassword(dto.password);
 
