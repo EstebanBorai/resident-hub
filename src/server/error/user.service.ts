@@ -1,8 +1,8 @@
-export class UserNotFound extends Error {
-  constructor(criteria: string, value: string) {
-    super(`No user with "${criteria}": ${value}, found`);
+export class UserByEmailNotFound extends Error {
+  constructor(email: string) {
+    super(`No user with ${email} wasn't found`);
 
-    this.name = 'UserNotFound';
+    this.name = 'UserByEmailNotFound';
   }
 }
 

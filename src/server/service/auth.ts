@@ -1,6 +1,9 @@
 import jsonwebtoken from 'jsonwebtoken';
 
-import { InvalidCreadentials, UserNotFound } from '../error/user.service';
+import {
+  InvalidCreadentials,
+  UserByEmailNotFound,
+} from '../error/user.service';
 import { ExpiredTokenProvidedForRefresh } from '../error/auth.service';
 
 import type { SignOptions } from 'jsonwebtoken';
@@ -91,7 +94,11 @@ export default class AuthService implements IAuthService {
       throw new InvalidCreadentials();
     }
 
-    throw new UserNotFound('email', username);
+    // The username handled to the function is the
+    // email from the User.
+    // we are using `username` instead in order to
+    // follow Basic Authentication conventions
+    throw new UserByEmailNotFound(username);
   }
 
   async register(dto: RegisterDTO): Promise<void> {

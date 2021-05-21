@@ -32,7 +32,7 @@ export default function (
       try {
         const user = await fastify.services.user.create(request.body);
 
-        return httpResponse.created(reply, user);
+        return httpResponse.created(reply, user.toPresentationLayer());
       } catch (error) {
         if (error instanceof InvalidUserRole) {
           return httpResponse.badRequestMessage(reply, error.message);
