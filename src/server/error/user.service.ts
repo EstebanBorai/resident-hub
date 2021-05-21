@@ -21,3 +21,11 @@ export class InvalidUserRole extends Error {
     this.name = 'InvalidUserRole';
   }
 }
+
+export class AdminUserAlreadyExists extends Error {
+  constructor() {
+    super('Attempted to create an "admin" user, but such user already exists');
+
+    this.name = 'AdminUserAlreadyExists';
+  }
+}

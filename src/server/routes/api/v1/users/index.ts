@@ -1,5 +1,8 @@
 import httpResponse from '../../../../utils/http-response';
-import { InvalidUserRole } from '../../../../error/user.service';
+import {
+  AdminUserAlreadyExists,
+  InvalidUserRole,
+} from '../../../../error/user.service';
 import { Role } from '../../../../models/user';
 import validationSchema from './validation-schema';
 
@@ -36,6 +39,10 @@ export default function (
       } catch (error) {
         if (error instanceof InvalidUserRole) {
           return httpResponse.badRequestMessage(reply, error.message);
+        }
+
+        if (error instanceof AdminUserAlreadyExists) {
+          return httpResponse.forbiddenMessage(reply, error.message);
         }
 
         return httpResponse.internalServerError(reply, error);
