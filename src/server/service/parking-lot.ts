@@ -1,7 +1,6 @@
 import ParkingLotModel from '../models/parking-lot';
 import { UnexistentParkingLotID } from '../error/parking-lot.service';
 
-import type { Thruway } from '../../@types/thruway';
 import type { ParkingLot } from '../models/parking-lot';
 
 export type CreateParkingLotDTO = {
@@ -14,35 +13,34 @@ export type UpdateParkingLotDTO = {
 };
 
 export interface IParkingLotService {
-  create(dto: CreateParkingLotDTO): Promise<Thruway.ParkingLot>;
-  update(dto: UpdateParkingLotDTO): Promise<Thruway.ParkingLot>;
-  remove(id: string): Promise<void>;
-  findById(id: string): Promise<ParkingLot | null>;
+  create(dto: CreateParkingLotDTO): Promise<ParkingLot>;
+  update(dto: UpdateParkingLotDTO): Promise<ParkingLot>;
+  remove(id: string): Promise<ParkingLot>;
+  findById(id: string): Promise<ParkingLot>;
 }
 
 export default class ParkingLotService implements IParkingLotService {
-  async create(dto: CreateParkingLotDTO): Promise<Thruway.ParkingLot> {
+  async create(dto: CreateParkingLotDTO): Promise<ParkingLot> {
     const parkingLot = new ParkingLotModel(dto);
 
     await parkingLot.save();
 
-    return parkingLot.toJSON() as Thruway.ParkingLot;
+    return parkingLot;
   }
 
-  async update(dto: UpdateParkingLotDTO): Promise<Thruway.ParkingLot> {
+  async update(dto: UpdateParkingLotDTO): Promise<ParkingLot> {
     const parkingLot = await this.findById(dto.id);
 
     await parkingLot.update(dto);
 
-    return parkingLot.toJSON() as Thruway.ParkingLot;
+    return parkingLot;
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string): Promise<ParkingLot> {
     const parkingLot = await this.findById(id);
+    const removed = await parkingLot.remove();
 
-    await parkingLot.remove();
-
-    return;
+    return removed;
   }
 
   async findById(id: string): Promise<ParkingLot | null> {
