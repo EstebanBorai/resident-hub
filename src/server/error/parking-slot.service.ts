@@ -1,7 +1,7 @@
-export class UnexistentParkingSlotID extends Error {
-  constructor() {
-    super(`Unexistent Parking slot ID!`);
+export class ParkingSlotWithIDNotFound extends Error {
+  constructor(id: string) {
+    super(`A Parking Lot with ID: ${id} doesn't exists`);
 
-    this.name = 'UnexistentParkingSlotID';
+    this.name = 'ParkingSlotWithIDNotFound';
   }
 }

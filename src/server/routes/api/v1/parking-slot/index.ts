@@ -1,7 +1,7 @@
 import httpResponse from '../../../../utils/http-response';
 import validationSchema from './validation-schema';
-import { UnexistentParkingLotID } from '../../../../error/parking-lot.service';
-import { UnexistentParkingSlotID } from '../../../../error/parking-slot.service';
+import { ParkingLotWithIDNotFound } from '../../../../error/parking-lot.service';
+import { ParkingSlotWithIDNotFound } from '../../../../error/parking-slot.service';
 
 import type {
   FastifyError,
@@ -39,12 +39,8 @@ export default function (
 
         return httpResponse.created(reply, parkingSlot.toPresentationLayer());
       } catch (error) {
-        if (error instanceof UnexistentParkingLotID) {
-          return httpResponse.badRequestMessage(
-            reply,
-            `Parking Lot with id: "${request.params.id}" does not exists`,
-            error,
-          );
+        if (error instanceof ParkingLotWithIDNotFound) {
+          return httpResponse.badRequestMessage(reply, error.message, error);
         }
 
         return httpResponse.internalServerError(reply, error);
@@ -76,20 +72,11 @@ export default function (
 
         return httpResponse.ok(reply, parkingSlot.toPresentationLayer());
       } catch (error) {
-        if (error instanceof UnexistentParkingLotID) {
-          return httpResponse.badRequestMessage(
-            reply,
-            `Parking Lot with id: "${request.params.id}" does not exists`,
-            error,
-          );
-        }
-
-        if (error instanceof UnexistentParkingSlotID) {
-          return httpResponse.badRequestMessage(
-            reply,
-            `Parking Slot with id: "${request.params.slot_id}" does not exists`,
-            error,
-          );
+        if (
+          error instanceof ParkingLotWithIDNotFound ||
+          error instanceof ParkingSlotWithIDNotFound
+        ) {
+          return httpResponse.badRequestMessage(reply, error.message, error);
         }
 
         return httpResponse.internalServerError(reply, error);
@@ -115,20 +102,11 @@ export default function (
 
         return httpResponse.ok(reply, removed.toPresentationLayer());
       } catch (error) {
-        if (error instanceof UnexistentParkingLotID) {
-          return httpResponse.badRequestMessage(
-            reply,
-            `Parking Lot with id: "${request.params.id}" does not exists`,
-            error,
-          );
-        }
-
-        if (error instanceof UnexistentParkingSlotID) {
-          return httpResponse.badRequestMessage(
-            reply,
-            `Parking Slot with id: "${request.params.slot_id}" does not exists`,
-            error,
-          );
+        if (
+          error instanceof ParkingLotWithIDNotFound ||
+          error instanceof ParkingSlotWithIDNotFound
+        ) {
+          return httpResponse.badRequestMessage(reply, error.message, error);
         }
 
         return httpResponse.internalServerError(reply, error);

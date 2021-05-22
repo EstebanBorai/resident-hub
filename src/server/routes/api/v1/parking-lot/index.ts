@@ -1,5 +1,5 @@
 import httpResponse from '../../../../utils/http-response';
-import { UnexistentParkingLotID } from '../../../../error/parking-lot.service';
+import { ParkingLotWithIDNotFound } from '../../../../error/parking-lot.service';
 import type {
   FastifyError,
   FastifyInstance,
@@ -59,12 +59,8 @@ export default function (
 
         return httpResponse.ok(reply, parkingLot.toPresentationLayer());
       } catch (error) {
-        if (error instanceof UnexistentParkingLotID) {
-          return httpResponse.badRequestMessage(
-            reply,
-            `Parking Lot with id: "${request.params.id}" does not exists`,
-            error,
-          );
+        if (error instanceof ParkingLotWithIDNotFound) {
+          return httpResponse.badRequestMessage(reply, error.message, error);
         }
 
         return httpResponse.internalServerError(reply, error);
@@ -89,12 +85,8 @@ export default function (
 
         return httpResponse.ok(reply, removed.toPresentationLayer());
       } catch (error) {
-        if (error instanceof UnexistentParkingLotID) {
-          return httpResponse.badRequestMessage(
-            reply,
-            `Parking Lot with id: "${request.params.id}" does not exists`,
-            error,
-          );
+        if (error instanceof ParkingLotWithIDNotFound) {
+          return httpResponse.badRequestMessage(reply, error.message, error);
         }
 
         return httpResponse.internalServerError(reply, error);

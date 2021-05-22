@@ -1,5 +1,5 @@
 import ParkingLotModel from '../models/parking-lot';
-import { UnexistentParkingLotID } from '../error/parking-lot.service';
+import { ParkingLotWithIDNotFound } from '../error/parking-lot.service';
 
 import type { ParkingLot } from '../models/parking-lot';
 
@@ -43,11 +43,11 @@ export default class ParkingLotService implements IParkingLotService {
     return removed;
   }
 
-  async findById(id: string): Promise<ParkingLot | null> {
+  async findById(id: string): Promise<ParkingLot> {
     const parkingLot = await ParkingLotModel.findById(id);
 
     if (!parkingLot) {
-      throw new UnexistentParkingLotID();
+      throw new ParkingLotWithIDNotFound(id);
     }
 
     return parkingLot;

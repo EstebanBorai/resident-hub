@@ -1,5 +1,5 @@
 import ParkingSlotModel from '../models/parking-slot';
-import { UnexistentParkingSlotID } from '../error/parking-slot.service';
+import { ParkingSlotWithIDNotFound } from '../error/parking-slot.service';
 
 import type { ParkingSlot } from '../models/parking-slot';
 import type { IParkingLotService } from './parking-lot';
@@ -67,7 +67,7 @@ export default class ParkingSlotService implements IParkingSlotService {
     const parkingSlot = await ParkingSlotModel.findById(id);
 
     if (!parkingSlot) {
-      throw new UnexistentParkingSlotID();
+      throw new ParkingSlotWithIDNotFound(id);
     }
 
     return parkingSlot;
