@@ -15,4 +15,10 @@ declare namespace Thruway {
     id: string;
     name: string;
   }
+
+  interface ParkingSlot {
+    id: string;
+    name: string;
+    parkingLotId: string;
+  }
 }
