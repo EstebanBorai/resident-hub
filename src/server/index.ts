@@ -4,6 +4,7 @@ import cookiePlugin from 'fastify-cookie';
 import jwtPlugin from 'fastify-jwt';
 
 import bootstrap from './utils/bootstrap';
+import knexPlugin from './plugins/knex';
 import nextPlugin from './plugins/next';
 import mongoosePlugin from './plugins/mongoose';
 import servicesPlugin from './plugins/services';
@@ -37,6 +38,7 @@ export default async (): Promise<FastifyInstance> => {
   });
   await server.register(routes);
   await server.register(nextPlugin);
+  await server.register(knexPlugin);
   await server.register(mongoosePlugin, {
     url: new URL(process.env.MONGO_URL),
   });

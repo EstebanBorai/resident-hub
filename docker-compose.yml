@@ -2,14 +2,13 @@ version: '3'
 
 services:
   database:
-    image: mongo:4
-    restart: unless-stopped
+    build: ./docker/database
     ports:
-      - 27017:27017
+      - '5432:5432'
     volumes:
-      - database:/data/db
+      - thruway-database:/var/lib/postgresql/data
     env_file:
       - .env
 
 volumes:
-  database:
+  thruway-database:
