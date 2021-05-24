@@ -1,8 +1,16 @@
 export class UserByEmailNotFound extends Error {
   constructor(email: string) {
-    super(`No user with ${email} wasn't found`);
+    super(`No user with email: "${email}" wasn't found`);
 
     this.name = 'UserByEmailNotFound';
+  }
+}
+
+export class UserByIdNotFound extends Error {
+  constructor(id: string) {
+    super(`No user with id: "${id}" wasn't found`);
+
+    this.name = 'UserByIdNotFound';
   }
 }
 
@@ -27,5 +35,13 @@ export class AdminUserAlreadyExists extends Error {
     super('Attempted to create an "admin" user, but such user already exists');
 
     this.name = 'AdminUserAlreadyExists';
+  }
+}
+
+export class InvalidUserDTO extends Error {
+  constructor() {
+    super('An invalid User DTO were provided');
+
+    this.name = 'InvalidUserDTO';
   }
 }

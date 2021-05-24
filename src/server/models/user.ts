@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import { Document, Schema, model, Model } from 'mongoose';
+import * as r from 'runtypes';
+import { Thruway } from '../../@types/thruway';
 
-import type { Thruway } from '../../@types/thruway';
+export const USERS_TABLE_NAME = 'users';
 
 export enum Role {
   Admin = 'admin',
@@ -9,69 +9,55 @@ export enum Role {
   User = 'user',
 }
 
-export interface User extends Document {
+export interface User {
+  id: string;
   email: string;
   password: string;
   role: Role;
   refreshToken: string;
-  validatePassword(hash: string): Promise<boolean>;
-  isAllowed(requiredRoles: Role[]): boolean;
-  toPresentationLayer(): Thruway.User;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export const UserSchema = new Schema<User, Model<User, User>>(
-  {
-    email: {
-      type: String,
-      required: true,
-      index: {
-        unique: true,
-        dropDups: true,
-      },
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      required: true,
-      enum: {
-        values: [
-          Role.Admin.toString(),
-          Role.Manager.toString(),
-          Role.User.toString(),
-        ],
-        message: `"{VALUE}" is not a valid "UserModel.role" value`,
-      },
-    },
-    refreshToken: {
-      type: String,
-      required: false,
-    },
+export interface UsersTableRows {
+  id: string;
+  email: string;
+  password: string;
+  role: string;
+  refresh_token: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export const UserRuntype = r.Record({
+  id: r.Optional(r.String),
+  email: r.String,
+  password: r.String,
+  role: r.Union(r.Literal('admin'), r.Literal('manager'), r.Literal('user')),
+  refreshToken: r.Optional(r.String),
+  createdAt: r.Optional(r.InstanceOf(Date)),
+  updatedAt: r.Optional(r.InstanceOf(Date)),
+});
+
+export const mapper = {
+  toPresentationLayer: function (data: User): Thruway.User {
+    return {
+      id: data.id,
+      email: data.email,
+      role: data.role,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    };
   },
-  {
-    versionKey: false,
+  fromDatabaseRow: function (data: UsersTableRows): User {
+    return {
+      id: data.id,
+      email: data.email,
+      password: data.password,
+      role: Role[data.role],
+      refreshToken: data.refresh_token,
+      createdAt: new Date(data.created_at),
+      updatedAt: new Date(data.updated_at),
+    };
   },
-);
-
-UserSchema.methods.validatePassword = async function (
-  plain: string,
-): Promise<boolean> {
-  return bcrypt.compare(plain, this.password);
 };
-
-UserSchema.methods.isAllowed = function (requiredRoles: Role[]): boolean {
-  return requiredRoles.includes(this.role);
-};
-
-UserSchema.methods.toPresentationLayer = function (): Thruway.User {
-  return {
-    email: this.email,
-    role: this.role,
-  };
-};
-
-const UserModel = model<User>('User', UserSchema);
-
-export default UserModel;

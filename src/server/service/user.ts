@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt';
 
-import UserModel, { Role } from '../models/user';
+import { USERS_TABLE_NAME, Role, UserRuntype, mapper } from '../models/user';
 import {
   AdminUserAlreadyExists,
+  InvalidUserDTO,
   UserByEmailNotFound,
 } from '../error/user.service';
 
+import type { Knex } from 'knex';
 import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
 
@@ -21,6 +23,7 @@ export interface IUserService {
 }
 
 export default class UserService implements IUserService {
+  private knex: Knex;
   private loggerService: ILoggerService;
 
   constructor(loggerService: ILoggerService) {
@@ -38,7 +41,7 @@ export default class UserService implements IUserService {
       // check if no `Admin` is already created
       // if it is, an error is thrown as only one
       // `Admin` user should exist
-      const adminUser = await UserModel.findOne({
+      const adminUser = await this.knex(USERS_TABLE_NAME).where({
         role: Role.Admin,
       });
 
@@ -47,25 +50,33 @@ export default class UserService implements IUserService {
       }
     }
 
-    const user = new UserModel(dto);
-    const hash = await this.createPassword(dto.password);
+    if (UserRuntype.validate(dto).success) {
+      const passwordHash = await this.createPassword(dto.password);
+      const createdUser = await this.knex(USERS_TABLE_NAME)
+        .insert({
+          email: dto.email,
+          password: passwordHash,
+          role: dto.role,
+        })
+        .returning('*');
 
-    user.password = hash;
+      this.loggerService.info(`User with email: "${dto.email}" was created`);
 
-    await user.save();
+      return mapper.fromDatabaseRow(createdUser[0]);
+    }
 
-    return user;
+    throw new InvalidUserDTO();
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await UserModel.findOne({
+    const user = await this.knex(USERS_TABLE_NAME).where({
       email,
     });
 
-    if (!user) {
+    if (!user.length) {
       throw new UserByEmailNotFound(email);
     }
 
-    return user;
+    return mapper.fromDatabaseRow(user[0]);
   }
 }
