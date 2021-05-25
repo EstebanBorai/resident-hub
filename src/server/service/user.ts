@@ -26,8 +26,9 @@ export default class UserService implements IUserService {
   private knex: Knex;
   private loggerService: ILoggerService;
 
-  constructor(loggerService: ILoggerService) {
+  constructor(loggerService: ILoggerService, knexInstance: Knex) {
     this.loggerService = loggerService;
+    this.knex = knexInstance;
   }
 
   private async createPassword(plain: string): Promise<string> {
