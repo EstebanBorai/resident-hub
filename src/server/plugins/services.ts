@@ -28,7 +28,7 @@ export default fp(
     next: (err?: Error) => void,
   ): Promise<void> => {
     const logger = new LoggerService(fastify.log);
-    const user = new UserService(logger);
+    const user = new UserService(logger, fastify.knex);
     const auth = new AuthService(logger, user);
     const parkingLot = new ParkingLotService();
     const parkingSlot = new ParkingSlotService(parkingLot);
