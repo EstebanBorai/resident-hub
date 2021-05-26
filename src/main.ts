@@ -20,5 +20,5 @@ import checkenv from './server/utils/checkenv';
     throw new Error('Missing "PORT" environment variable');
   }
 
-  server.listen(+process.env.PORT);
+  server.listen(+process.env.PORT, '0.0.0.0');
 })();
