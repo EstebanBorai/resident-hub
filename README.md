@@ -69,6 +69,17 @@ $ node ./dist/main.js
 > event - compiled successfully
 ```
 
+## Docker
+
+Run this project with Docker using the `Dockerfile` included.
+First you must build the image using `docker build` command:
+
+```bash
+PORT=3000 docker build -t thruway .
+```
+
+Then run the container by using the `./bin/docker_run_default` script.
+
 ## Environment Variables
 
 Check on `.env.sample` for an example of environment variable settings and

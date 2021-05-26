@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NEXT_TELEMETRY_DISABLED=1 yarn build:client && yarn build:server",
-    "build:production": "yarn run build && ./bin/prepare_prod",
+    "build:production": "NODE_ENV=production yarn run build && ./bin/prepare_prod",
     "build:client": "NEXT_TELEMETRY_DISABLED=1 next build ./src/client",
     "build:server": "tsc",
     "dev": "NODE_ENV=development NEXT_TELEMETRY_DISABLED=1 ts-node-dev --ignore-watch ./src/client --transpile-only ./src/main.ts",

@@ -11,6 +11,14 @@ import routes from './routes';
 import { FastifyCookieOptions } from 'fastify-cookie';
 
 export default async (): Promise<FastifyInstance> => {
+  const {
+    APPLICATION_DOMAIN,
+    COOKIE_SIGNATURE,
+    JWT_PRIVATE_KEY,
+    JWT_TOKEN_COOKIE_NAME,
+    MONGO_URL,
+    PORT,
+  } = process.env;
   const server = fastify({
     logger: {
       prettyPrint: true,
@@ -20,25 +28,29 @@ export default async (): Promise<FastifyInstance> => {
 
   await server.register(corsPlugin, {
     credentials: true,
-    origin: 'http://localhost:3000',
+    // currently we have no support for HTTPS on development, but URL schema
+    // we shall use "HTTPS" for every environment ASAP
+    origin: `http://${APPLICATION_DOMAIN}${
+      typeof PORT === 'undefined' ? '' : ':' + PORT
+    }`,
     exposedHeaders: ['set-cookie'],
     methods: ['get', 'post', 'put', 'patch', 'delete'],
     allowedHeaders: ['origin, content-type, accept'],
   });
   await server.register(cookiePlugin, {
-    secret: process.env.COOKIE_SIGNATURE,
+    secret: COOKIE_SIGNATURE,
     parseOptions: {},
   } as FastifyCookieOptions);
   await server.register(jwtPlugin, {
-    secret: process.env.JWT_PRIVATE_KEY,
+    secret: JWT_PRIVATE_KEY,
     cookie: {
-      cookieName: process.env.JWT_TOKEN_COOKIE_NAME,
+      cookieName: JWT_TOKEN_COOKIE_NAME,
     },
   });
   await server.register(routes);
   await server.register(nextPlugin);
   await server.register(mongoosePlugin, {
-    url: new URL(process.env.MONGO_URL),
+    url: new URL(MONGO_URL),
   });
   await server.register(servicesPlugin);
 

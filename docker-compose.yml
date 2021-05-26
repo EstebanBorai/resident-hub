@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  api:
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - MONGO_URL=mongodb://database/thruway
+
   database:
     image: mongo:4
     restart: unless-stopped
@@ -8,6 +18,8 @@ services:
       - 27017:27017
     volumes:
       - database:/data/db
+    environment:
+      - MONGO_URL=mongodb://database/thruway
     env_file:
       - .env
 
