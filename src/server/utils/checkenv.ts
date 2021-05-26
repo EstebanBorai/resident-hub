@@ -9,7 +9,6 @@ export default function checkenv(): void {
     'JWT_PRIVATE_KEY',
     'NODE_ENV',
     'PORT',
-    'MONGO_URL',
   ];
 
   for (const env of REQUIRED_ENVIRONMENT_VARIABLES) {

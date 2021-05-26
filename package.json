@@ -15,7 +15,10 @@
     "fmt": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write \"**/*.{json,md,yml,ts,tsx,js,jsx}\"",
     "prettier": "prettier -c \"**/*.{md,json,yml,sh}\"",
     "start": "NEXT_TELEMETRY_DISABLED=1 node ./dist/main.js",
-    "test": "jest"
+    "test": "jest",
+    "migration:run": "ts-node --project ./tsconfig.json --transpile-only ./node_modules/typeorm/cli.js migration:run",
+    "migration:create": "ts-node --project ./tsconfig.json --transpile-only ./node_modules/typeorm/cli.js migration:create",
+    "migration:generate": "ts-node --project ./tsconfig.json --transpile-only ./node_modules/typeorm/cli.js migration:generate"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -32,6 +35,7 @@
     "@typescript-eslint/parser": "^4.14.2",
     "autoprefixer": "^10.2.5",
     "dotenv": "^9.0.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
@@ -59,10 +63,12 @@
     "fastify-plugin": "^3.0.0",
     "formik": "^2.2.6",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.7",
     "next": "^10.2.0",
+    "pg": "^8.6.0",
     "pino-pretty": "^4.7.1",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.32"
   }
 }

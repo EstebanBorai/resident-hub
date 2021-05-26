@@ -1,40 +1,53 @@
-import { Document, Schema, model, Model } from 'mongoose';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import ParkingLot from './parking-lot';
 
 import type { Thruway } from '../../@types/thruway';
 
-export interface ParkingSlot extends Document {
+@Entity({ name: 'parking_slots' })
+export default class ParkingSlot {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({
+    type: 'varchar',
+    length: 128,
+    nullable: false,
+  })
   name: string;
-  parkingLotId: string;
-  toPresentationLayer(): Thruway.ParkingSlot;
+
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  public updatedAt: Date;
+
+  @ManyToOne(() => ParkingLot, (parkingLot) => parkingLot.slots)
+  public parkingLotId: string;
+
+  public toPresentationLayer(): Thruway.ParkingSlot {
+    return {
+      id: this.id,
+      name: this.name,
+      parkingLotId: this.parkingLotId,
+      createdAt: this.createdAt,
+      updateAt: this.updatedAt,
+    };
+  }
 }
-
-export const ParkingSlotSchema = new Schema<
-  ParkingSlot,
-  Model<ParkingSlot, ParkingSlot>
->(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    parkingLotId: {
-      ref: 'ParkingLot',
-      type: Schema.Types.ObjectId,
-    },
-  },
-  {
-    versionKey: false,
-  },
-);
-
-ParkingSlotSchema.methods.toJSON = function (): Thruway.ParkingSlot {
-  return {
-    id: this._id,
-    name: this.name,
-    parkingLotId: this.parkingLotId,
-  };
-};
-
-const ParkingSlotModel = model<ParkingSlot>('ParkingSlot', ParkingSlotSchema);
-
-export default ParkingSlotModel;

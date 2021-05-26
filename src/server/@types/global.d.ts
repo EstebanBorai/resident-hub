@@ -13,8 +13,10 @@ declare namespace NodeJS {
     JWT_PRIVATE_KEY: string;
     NODE_ENV: Environment;
     PORT: string;
-    MONGO_URL: string;
-    MONGO_INITDB_ROOT_USERNAME: string;
-    MONGO_INITDB_ROOT_PASSWORD: string;
+    PGHOST: string;
+    PGPORT: string;
+    POSTGRES_DB: string;
+    POSTGRES_USER: string;
+    POSTGRES_PASSWORD: string;
   }
 }

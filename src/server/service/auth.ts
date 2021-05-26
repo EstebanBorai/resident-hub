@@ -1,5 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 
+import User from '../models/user';
 import {
   InvalidCreadentials,
   UserByEmailNotFound,
@@ -9,7 +10,7 @@ import { ExpiredTokenProvidedForRefresh } from '../error/auth.service';
 import type { SignOptions } from 'jsonwebtoken';
 import type { Thruway } from '../../@types/thruway';
 import type { Credentials } from '../utils/basic-auth';
-import type { Role, User } from '../models/user';
+import type { Role } from '../models/user';
 import type { IUserService } from './user';
 import type { ILoggerService } from './logger';
 
@@ -27,8 +28,8 @@ export type Tokens = {
 export interface IAuthService {
   authenticate(credentials: Credentials): Promise<Tokens>;
   register(dto: RegisterDTO): Promise<void>;
-  refreshToken(token: string): Promise<string>;
   terminateSession(token: string): Promise<void>;
+  refreshToken(token: string): Promise<string>;
 }
 
 export default class AuthService implements IAuthService {
@@ -56,8 +57,8 @@ export default class AuthService implements IAuthService {
     );
   }
 
-  private async signRefreshToken(user: User): Promise<string> {
-    const userModel = await this.userService.findByEmail(user.email);
+  private async signRefreshToken(email: string): Promise<string> {
+    const user = await this.userService.findByEmail(email);
     const refreshToken = jsonwebtoken.sign(
       {
         email: user.email,
@@ -69,9 +70,6 @@ export default class AuthService implements IAuthService {
       },
     );
 
-    userModel.refreshToken = refreshToken;
-    await userModel.save();
-
     return refreshToken;
   }
 
@@ -79,11 +77,13 @@ export default class AuthService implements IAuthService {
     const user = await this.userService.findByEmail(username);
 
     if (user) {
-      const isPasswordValid = user.validatePassword(password);
+      const isPasswordValid = await user.validatePassword(password);
 
       if (isPasswordValid) {
         const token = this.signToken(user);
-        const refreshToken = await this.signRefreshToken(user);
+        const refreshToken = await this.signRefreshToken(user.email);
+
+        await this.userService.setRefreshToken(user.email, refreshToken);
 
         return {
           token,
@@ -133,9 +133,6 @@ export default class AuthService implements IAuthService {
       token,
       this.privateKey,
     ) as Thruway.JwtToken;
-    const user = await this.userService.findByEmail(claims.email);
-
-    user.refreshToken = null;
-    await user.save();
+    await this.userService.clearRefreshToken(claims.email);
   }
 }

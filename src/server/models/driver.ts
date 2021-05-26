@@ -1,53 +1,50 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  Entity,
+  ManyToOne,
+  ManyToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
+  JoinTable,
 } from 'typeorm';
-import bcrypt from 'bcrypt';
+
+import User from './user';
+import Vehicle from './vehicle';
 
 import type { Thruway } from '../../@types/thruway';
 
-export enum Role {
-  Admin = 'admin',
-  Manager = 'manager',
-  User = 'user',
-}
-
-@Entity({ name: 'users' })
-export default class User {
+@Entity({ name: 'drivers ' })
+export default class Driver {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({
     type: 'varchar',
-    length: 254,
+    length: 128,
     nullable: false,
   })
-  email: string;
+  firstName: string;
 
   @Column({
     type: 'varchar',
-    length: 60,
+    length: 128,
     nullable: false,
   })
-  password: string;
+  lastName: string;
 
   @Column({
-    type: 'enum',
-    enum: Role,
-    default: Role.User,
+    type: 'boolean',
+    nullable: false,
   })
-  role: Role;
+  isResident: boolean;
 
   @Column({
-    name: 'refresh_token',
     type: 'varchar',
-    length: 512,
-    nullable: true,
+    length: 128,
+    nullable: false,
   })
-  refreshToken: string;
+  NID: string;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -64,19 +61,22 @@ export default class User {
   })
   public updatedAt: Date;
 
-  public isAllowed(requiredRoles: Role[]): boolean {
-    return requiredRoles.includes(this.role);
-  }
+  @ManyToOne(() => User, (user) => user.id)
+  public userId: string;
 
-  public async validatePassword(plain: string): Promise<boolean> {
-    return bcrypt.compare(plain, this.password);
-  }
+  @ManyToMany(() => Vehicle, (vehicle) => vehicle.id)
+  @JoinTable()
+  public vehicleId: string;
 
-  public toPresentationLayer(): Thruway.User {
+  public toPresentationLayer(): Thruway.Driver {
     return {
       id: this.id,
-      email: this.email,
-      role: this.role,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      vehicleId: this.vehicleId,
+      userId: this.userId,
+      isResident: this.isResident,
+      NID: this.NID,
       createdAt: this.createdAt,
       updateAt: this.updatedAt,
     };

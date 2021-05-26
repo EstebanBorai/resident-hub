@@ -98,9 +98,25 @@ create a new `.env` file for your environment variable during development.
 | `JWT_EXPIRATION`                | JWT Expiration Time. The value provided is parsed with [zeit/ms](https://github.com/vercel/ms#examples) package. Make sure you provide a compatible value.                                                                                                           |
 | `JWT_PRIVATE_KEY`               | JWT Private Key. [Read more](https://jwt.io/introduction/)                                                                                                                                                                                                           |
 | `PORT`                          | Port to bind the server                                                                                                                                                                                                                                              |
-| `MONGO_URL`                     | MongoDB Connection URL                                                                                                                                                                                                                                               |
-| `MONGO_INITDB_ROOT_USERNAME`    | MongoDB Root Username                                                                                                                                                                                                                                                |
-| `MONGO_INITDB_ROOT_PASSWORD`    | MongoDB Root Password                                                                                                                                                                                                                                                |
+| `PGHOST`                        | PostgreSQL host                                                                                                                                                                                                                                                      |
+| `PGPORT`                        | PostgreSQL Port                                                                                                                                                                                                                                                      |
+| `POSTGRES_DB`                   | PostgreSQL database name                                                                                                                                                                                                                                             |
+| `POSTGRES_USER`                 | PostgreSQL database username                                                                                                                                                                                                                                         |
+| `POSTGRES_PASSWORD`             | PostgreSQL database password                                                                                                                                                                                                                                         |
+
+## Database and TypeORM
+
+This project makes use of a PostgreSQL database instance which is managed via
+TypeORM.
+
+Migrations generated from entities are created via the `migration:generate`
+node script.
+
+In order to run pending migrations, first make sure the PostgreSQL database
+is running. If you are using Docker, by executing `docker-compose up database`
+you should be good to go.
+
+Then execute the NodeJS script `migration:run`.
 
 # Contributing
 

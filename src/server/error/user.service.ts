@@ -6,6 +6,14 @@ export class UserByEmailNotFound extends Error {
   }
 }
 
+export class UserWithIDNotFound extends Error {
+  constructor(id: string) {
+    super(`User with ID: ${id} doesn't exists`);
+
+    this.name = 'UserWithIDNotFound';
+  }
+}
+
 export class InvalidCreadentials extends Error {
   constructor() {
     super('Invalid credentials where provided');
