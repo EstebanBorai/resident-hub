@@ -1,7 +1,7 @@
-import ParkingLotModel from '../models/parking-lot';
-import { ParkingLotWithIDNotFound } from '../error/parking-lot.service';
+import { getRepository } from 'typeorm';
 
-import type { ParkingLot } from '../models/parking-lot';
+import ParkingLot from '../models/parking-lot';
+import { ParkingLotWithIDNotFound } from '../error/parking-lot.service';
 
 export type CreateParkingLotDTO = {
   name: string;
@@ -21,30 +21,40 @@ export interface IParkingLotService {
 
 export default class ParkingLotService implements IParkingLotService {
   async create(dto: CreateParkingLotDTO): Promise<ParkingLot> {
-    const parkingLot = new ParkingLotModel(dto);
+    const parkingLotRepository = getRepository(ParkingLot);
+    const parkingLot = new ParkingLot();
 
-    await parkingLot.save();
+    parkingLot.name = dto.name;
 
-    return parkingLot;
+    const createdParkingLot = await parkingLotRepository.save(parkingLot);
+
+    return createdParkingLot;
   }
 
   async update(dto: UpdateParkingLotDTO): Promise<ParkingLot> {
+    const parkingLotRepository = getRepository(ParkingLot);
     const parkingLot = await this.findById(dto.id);
 
-    await parkingLot.update(dto);
+    parkingLot.name = dto.name;
+
+    await parkingLotRepository.update(dto.id, parkingLot);
 
     return parkingLot;
   }
 
   async remove(id: string): Promise<ParkingLot> {
+    const parkingLotRepository = getRepository(ParkingLot);
     const parkingLot = await this.findById(id);
-    const removed = await parkingLot.remove();
+    await parkingLotRepository.delete({ id });
 
-    return removed;
+    return parkingLot;
   }
 
   async findById(id: string): Promise<ParkingLot> {
-    const parkingLot = await ParkingLotModel.findById(id);
+    const parkingLotRepository = getRepository(ParkingLot);
+    const parkingLot = await parkingLotRepository.findOne({
+      id,
+    });
 
     if (!parkingLot) {
       throw new ParkingLotWithIDNotFound(id);

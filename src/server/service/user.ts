@@ -1,12 +1,13 @@
 import bcrypt from 'bcrypt';
+import { getRepository } from 'typeorm';
 
-import UserModel, { Role } from '../models/user';
+import User, { Role } from '../models/user';
 import {
   AdminUserAlreadyExists,
   UserByEmailNotFound,
+  UserWithIDNotFound,
 } from '../error/user.service';
 
-import type { User } from '../models/user';
 import type { ILoggerService } from './logger';
 
 export type CreateUserDTO = {
@@ -18,6 +19,9 @@ export type CreateUserDTO = {
 export interface IUserService {
   create(dto: CreateUserDTO): Promise<User>;
   findByEmail(email: string): Promise<User>;
+  findById(id: string): Promise<User>;
+  setRefreshToken(email: string, token: string): Promise<User>;
+  clearRefreshToken(email: string): Promise<User>;
 }
 
 export default class UserService implements IUserService {
@@ -34,11 +38,13 @@ export default class UserService implements IUserService {
   }
 
   async create(dto: CreateUserDTO): Promise<User> {
+    const userRepository = getRepository(User);
+
     if (dto.role === Role.Admin) {
       // check if no `Admin` is already created
       // if it is, an error is thrown as only one
       // `Admin` user should exist
-      const adminUser = await UserModel.findOne({
+      const adminUser = await userRepository.findOne({
         role: Role.Admin,
       });
 
@@ -47,18 +53,20 @@ export default class UserService implements IUserService {
       }
     }
 
-    const user = new UserModel(dto);
-    const hash = await this.createPassword(dto.password);
+    const user = new User();
 
-    user.password = hash;
+    user.email = dto.email;
+    user.password = await this.createPassword(dto.password);
+    user.role = dto.role as Role;
 
-    await user.save();
+    const createdUser = await userRepository.save(user);
 
-    return user;
+    return createdUser;
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await UserModel.findOne({
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({
       email,
     });
 
@@ -67,5 +75,52 @@ export default class UserService implements IUserService {
     }
 
     return user;
+  }
+
+  async findById(id: string): Promise<User> {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({
+      id,
+    });
+
+    if (!user) {
+      throw new UserWithIDNotFound(id);
+    }
+
+    return user;
+  }
+
+  async setRefreshToken(email: string, token: string): Promise<User> {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({
+      email,
+    });
+
+    if (!user) {
+      throw new UserByEmailNotFound(email);
+    }
+
+    user.refreshToken = token;
+
+    const updatedUser = await userRepository.save(user);
+
+    return updatedUser;
+  }
+
+  async clearRefreshToken(email: string): Promise<User> {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({
+      email,
+    });
+
+    if (!user) {
+      throw new UserByEmailNotFound(email);
+    }
+
+    user.refreshToken = null;
+
+    const updatedUser = await userRepository.save(user);
+
+    return updatedUser;
   }
 }
