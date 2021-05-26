@@ -8,17 +8,24 @@ declare namespace Thruway {
   }
 
   interface User {
+    id: string;
     email: string;
     role: Role;
+    createdAt: Date;
+    updateAt: Date;
   }
   interface ParkingLot {
     id: string;
     name: string;
+    createdAt: Date;
+    updateAt: Date;
   }
 
   interface ParkingSlot {
     id: string;
     name: string;
     parkingLotId: string;
+    createdAt: Date;
+    updateAt: Date;
   }
 }

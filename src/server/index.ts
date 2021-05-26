@@ -5,7 +5,7 @@ import jwtPlugin from 'fastify-jwt';
 
 import bootstrap from './utils/bootstrap';
 import nextPlugin from './plugins/next';
-import mongoosePlugin from './plugins/mongoose';
+import typeormPlugin from './plugins/typeorm';
 import servicesPlugin from './plugins/services';
 import routes from './routes';
 import { FastifyCookieOptions } from 'fastify-cookie';
@@ -16,7 +16,6 @@ export default async (): Promise<FastifyInstance> => {
     COOKIE_SIGNATURE,
     JWT_PRIVATE_KEY,
     JWT_TOKEN_COOKIE_NAME,
-    MONGO_URL,
     PORT,
   } = process.env;
   const server = fastify({
@@ -49,9 +48,7 @@ export default async (): Promise<FastifyInstance> => {
   });
   await server.register(routes);
   await server.register(nextPlugin);
-  await server.register(mongoosePlugin, {
-    url: new URL(MONGO_URL),
-  });
+  await server.register(typeormPlugin);
   await server.register(servicesPlugin);
 
   // This should always run before returning the `server` instance

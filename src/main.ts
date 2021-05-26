@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import makeServer from './server';
 import checkenv from './server/utils/checkenv';
 

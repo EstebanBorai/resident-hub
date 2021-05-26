@@ -45,6 +45,6 @@ export default fp(
   },
   {
     name: 'services',
-    dependencies: ['mongoose'],
+    dependencies: ['typeorm'],
   },
 );

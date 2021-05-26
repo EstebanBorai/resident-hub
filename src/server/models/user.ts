@@ -1,5 +1,11 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import bcrypt from 'bcrypt';
-import { Document, Schema, model, Model } from 'mongoose';
 
 import type { Thruway } from '../../@types/thruway';
 
@@ -9,69 +15,70 @@ export enum Role {
   User = 'user',
 }
 
-export interface User extends Document {
+@Entity({ name: 'users' })
+export default class User {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({
+    type: 'varchar',
+    length: 254,
+    nullable: false,
+  })
   email: string;
+
+  @Column({
+    type: 'varchar',
+    length: 60,
+    nullable: false,
+  })
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.User,
+  })
   role: Role;
+
+  @Column({
+    name: 'refresh_token',
+    type: 'varchar',
+    length: 512,
+    nullable: true,
+  })
   refreshToken: string;
-  validatePassword(hash: string): Promise<boolean>;
-  isAllowed(requiredRoles: Role[]): boolean;
-  toPresentationLayer(): Thruway.User;
+
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  public updatedAt: Date;
+
+  public isAllowed(requiredRoles: Role[]): boolean {
+    return requiredRoles.includes(this.role);
+  }
+
+  public async validatePassword(plain: string): Promise<boolean> {
+    return bcrypt.compare(plain, this.password);
+  }
+
+  public toPresentationLayer(): Thruway.User {
+    return {
+      id: this.id,
+      email: this.email,
+      role: this.role,
+      createdAt: this.createdAt,
+      updateAt: this.updatedAt,
+    };
+  }
 }
-
-export const UserSchema = new Schema<User, Model<User, User>>(
-  {
-    email: {
-      type: String,
-      required: true,
-      index: {
-        unique: true,
-        dropDups: true,
-      },
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      required: true,
-      enum: {
-        values: [
-          Role.Admin.toString(),
-          Role.Manager.toString(),
-          Role.User.toString(),
-        ],
-        message: `"{VALUE}" is not a valid "UserModel.role" value`,
-      },
-    },
-    refreshToken: {
-      type: String,
-      required: false,
-    },
-  },
-  {
-    versionKey: false,
-  },
-);
-
-UserSchema.methods.validatePassword = async function (
-  plain: string,
-): Promise<boolean> {
-  return bcrypt.compare(plain, this.password);
-};
-
-UserSchema.methods.isAllowed = function (requiredRoles: Role[]): boolean {
-  return requiredRoles.includes(this.role);
-};
-
-UserSchema.methods.toPresentationLayer = function (): Thruway.User {
-  return {
-    email: this.email,
-    role: this.role,
-  };
-};
-
-const UserModel = model<User>('User', UserSchema);
-
-export default UserModel;
