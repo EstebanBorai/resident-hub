@@ -10,7 +10,11 @@ import type {
   FastifyReply,
   FastifyRequest,
 } from 'fastify';
-import type { ParkingSlot } from '../../../../models/parking-slot';
+
+type ParkingSlot = {
+  name: string;
+  parkingLotId: string;
+};
 
 export default function (
   fastify: FastifyInstance,
