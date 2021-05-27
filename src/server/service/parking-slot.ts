@@ -1,8 +1,8 @@
-import ParkingSlotModel from '../models/parking-slot';
+import ParkingSlot from '../models/parking-slot';
 import { ParkingSlotWithIDNotFound } from '../error/parking-slot.service';
 
-import type { ParkingSlot } from '../models/parking-slot';
 import type { IParkingLotService } from './parking-lot';
+import { getRepository } from 'typeorm';
 
 export type CreateParkingSlotDTO = {
   parkingLotId: string;
@@ -33,15 +33,16 @@ export default class ParkingSlotService implements IParkingSlotService {
     parkingLotId: string,
     dto: CreateParkingSlotDTO,
   ): Promise<ParkingSlot> {
+    const parkingSlotRepository = getRepository(ParkingSlot);
     const parkingLot = await this.parkingLotService.findById(parkingLotId);
-    const parkingSlot = new ParkingSlotModel({
-      ...dto,
-      parkingLotId: parkingLot.id,
-    });
+    const parkingSlot = new ParkingSlot();
 
-    await parkingSlot.save();
+    parkingSlot.name = dto.name;
+    parkingSlot.parkingLotId = parkingLot.id;
 
-    return parkingSlot;
+    const createdParkingSlot = await parkingSlotRepository.save(parkingSlot);
+
+    return createdParkingSlot;
   }
 
   async update(dto: UpdatedParkingSlotDTO): Promise<ParkingSlot> {
@@ -64,7 +65,7 @@ export default class ParkingSlotService implements IParkingSlotService {
   }
 
   async findById(id: string): Promise<ParkingSlot> {
-    const parkingSlot = await ParkingSlotModel.findById(id);
+    const parkingSlot = await ParkingSlot.findById(id);
 
     if (!parkingSlot) {
       throw new ParkingSlotWithIDNotFound(id);
