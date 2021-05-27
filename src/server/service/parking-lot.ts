@@ -46,7 +46,10 @@ export default class ParkingLotService implements IParkingLotService {
   }
 
   async findById(id: string): Promise<ParkingLot> {
-    const parkingLot = await ParkingLot.findById(id);
+    const parkingLotRepository = getRepository(ParkingLot);
+    const parkingLot = await parkingLotRepository.findOne({
+      id,
+    });
 
     if (!parkingLot) {
       throw new ParkingLotWithIDNotFound(id);
