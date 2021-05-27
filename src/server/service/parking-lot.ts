@@ -42,10 +42,12 @@ export default class ParkingLotService implements IParkingLotService {
   }
 
   async remove(id: string): Promise<ParkingLot> {
+    const parkingLotRepository = getRepository(ParkingLot);
     const parkingLot = await this.findById(id);
-    const removed = await parkingLot.remove();
 
-    return removed;
+    const parkingLotRemoved = await parkingLotRepository.remove(parkingLot, {});
+
+    return parkingLotRemoved;
   }
 
   async findById(id: string): Promise<ParkingLot> {
