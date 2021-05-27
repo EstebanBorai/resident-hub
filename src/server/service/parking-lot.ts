@@ -1,7 +1,6 @@
-import ParkingLotModel from '../models/parking-lot';
+import { getRepository } from 'typeorm';
+import ParkingLot from '../models/parking-lot';
 import { ParkingLotWithIDNotFound } from '../error/parking-lot.service';
-
-import type { ParkingLot } from '../models/parking-lot';
 
 export type CreateParkingLotDTO = {
   name: string;
@@ -21,11 +20,14 @@ export interface IParkingLotService {
 
 export default class ParkingLotService implements IParkingLotService {
   async create(dto: CreateParkingLotDTO): Promise<ParkingLot> {
-    const parkingLot = new ParkingLotModel(dto);
+    const parkingLotRepository = getRepository(ParkingLot);
+    const parkingLot = new ParkingLot();
 
-    await parkingLot.save();
+    parkingLot.name = dto.name;
 
-    return parkingLot;
+    const createdParkingLot = await parkingLotRepository.save(parkingLot);
+
+    return createdParkingLot;
   }
 
   async update(dto: UpdateParkingLotDTO): Promise<ParkingLot> {
@@ -44,7 +46,7 @@ export default class ParkingLotService implements IParkingLotService {
   }
 
   async findById(id: string): Promise<ParkingLot> {
-    const parkingLot = await ParkingLotModel.findById(id);
+    const parkingLot = await ParkingLot.findById(id);
 
     if (!parkingLot) {
       throw new ParkingLotWithIDNotFound(id);
