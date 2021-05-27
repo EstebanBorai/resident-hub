@@ -31,9 +31,12 @@ export default class ParkingLotService implements IParkingLotService {
   }
 
   async update(dto: UpdateParkingLotDTO): Promise<ParkingLot> {
+    const parkingLotRepository = getRepository(ParkingLot);
     const parkingLot = await this.findById(dto.id);
 
-    await parkingLot.update(dto);
+    parkingLot.name = dto.name;
+
+    await parkingLotRepository.update(dto.id, parkingLot);
 
     return parkingLot;
   }
