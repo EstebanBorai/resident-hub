@@ -53,12 +53,12 @@ export default function (
   );
 
   fastify.put(
-    '/:id/slot/:slot_id',
+    '/:lot_id/slot/:slot_id',
     { schema: validationSchema.updateParkingSlotSchema },
     async (
       request: FastifyRequest<{
         Params: {
-          id: string;
+          lot_id: string;
           slot_id: string;
         };
         Body: {
@@ -70,7 +70,7 @@ export default function (
       try {
         const parkingSlot = await fastify.services.parkingSlot.update({
           id: request.params.slot_id,
-          parkingLotId: request.params.id,
+          parkingLotId: request.params.lot_id,
           ...request.body,
         });
 
