@@ -89,11 +89,11 @@ export default function (
   );
 
   fastify.delete(
-    '/:id/slot/:slot_id',
+    '/:lot_id/slot/:slot_id',
     async (
       request: FastifyRequest<{
         Params: {
-          id: string;
+          lot_id: string;
           slot_id: string;
         };
       }>,
