@@ -53,12 +53,12 @@ export default function (
   );
 
   fastify.put(
-    '/:lot_id/slot/:slot_id',
+    '/:id/slot/:slot_id',
     { schema: validationSchema.updateParkingSlotSchema },
     async (
       request: FastifyRequest<{
         Params: {
-          lot_id: string;
+          id: string;
           slot_id: string;
         };
         Body: {
@@ -70,7 +70,7 @@ export default function (
       try {
         const parkingSlot = await fastify.services.parkingSlot.update({
           id: request.params.slot_id,
-          parkingLotId: request.params.lot_id,
+          parkingLotId: request.params.id,
           ...request.body,
         });
 
@@ -89,11 +89,11 @@ export default function (
   );
 
   fastify.delete(
-    '/:lot_id/slot/:slot_id',
+    '/:id/slot/:slot_id',
     async (
       request: FastifyRequest<{
         Params: {
-          lot_id: string;
+          id: string;
           slot_id: string;
         };
       }>,
