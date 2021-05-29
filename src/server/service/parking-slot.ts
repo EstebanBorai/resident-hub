@@ -62,13 +62,9 @@ export default class ParkingSlotService implements IParkingSlotService {
   async remove(id: string): Promise<ParkingSlot> {
     const parkingSlotRepository = getRepository(ParkingSlot);
     const parkingSlot = await this.findById(id);
+    await parkingSlotRepository.delete({ id });
 
-    const parkingLoreRemoved = await parkingSlotRepository.remove(
-      parkingSlot,
-      {},
-    );
-
-    return parkingLoreRemoved;
+    return parkingSlot;
   }
 
   async findById(id: string): Promise<ParkingSlot> {
