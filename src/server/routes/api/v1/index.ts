@@ -31,11 +31,11 @@ export default function (
   });
 
   fastify.register(parkingLot, {
-    prefix: 'parking',
+    prefix: 'parking/lots',
   });
 
   fastify.register(parkingSlot, {
-    prefix: 'parking',
+    prefix: 'parking/slots',
   });
 
   done();
