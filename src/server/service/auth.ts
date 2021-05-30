@@ -29,6 +29,7 @@ export interface IAuthService {
   authenticate(credentials: Credentials): Promise<Tokens>;
   register(dto: RegisterDTO): Promise<void>;
   terminateSession(token: string): Promise<void>;
+  refreshToken(token: string): Promise<string>;
 }
 
 export default class AuthService implements IAuthService {
