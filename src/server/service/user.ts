@@ -5,6 +5,7 @@ import User, { Role } from '../models/user';
 import {
   AdminUserAlreadyExists,
   UserByEmailNotFound,
+  UserWithIDNotFound,
 } from '../error/user.service';
 
 import type { ILoggerService } from './logger';
@@ -18,6 +19,7 @@ export type CreateUserDTO = {
 export interface IUserService {
   create(dto: CreateUserDTO): Promise<User>;
   findByEmail(email: string): Promise<User>;
+  findById(id: string): Promise<User>;
   setRefreshToken(email: string, token: string): Promise<User>;
   clearRefreshToken(email: string): Promise<User>;
 }
@@ -70,6 +72,19 @@ export default class UserService implements IUserService {
 
     if (!user) {
       throw new UserByEmailNotFound(email);
+    }
+
+    return user;
+  }
+
+  async findById(id: string): Promise<User> {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({
+      id,
+    });
+
+    if (!user) {
+      throw new UserWithIDNotFound(id);
     }
 
     return user;
