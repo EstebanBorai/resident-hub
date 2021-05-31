@@ -75,6 +75,20 @@ export default class UserService implements IUserService {
     return user;
   }
 
+  async findById(id: string): Promise<User> {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne({
+      id,
+    });
+
+    if (!user) {
+      // TODO: Usage of specific error
+      throw new Error('User with id does not exist');
+    }
+
+    return user;
+  }
+
   async setRefreshToken(email: string, token: string): Promise<User> {
     const userRepository = getRepository(User);
     const user = await userRepository.findOne({
