@@ -18,6 +18,7 @@ export type CreateUserDTO = {
 export interface IUserService {
   create(dto: CreateUserDTO): Promise<User>;
   findByEmail(email: string): Promise<User>;
+  findById(id: string): Promise<User>;
   setRefreshToken(email: string, token: string): Promise<User>;
   clearRefreshToken(email: string): Promise<User>;
 }
