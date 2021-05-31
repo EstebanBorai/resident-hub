@@ -28,4 +28,13 @@ declare namespace Thruway {
     createdAt: Date;
     updateAt: Date;
   }
+
+  interface Vehicle {
+    id: string;
+    license: string;
+    color: string;
+    model: string;
+    brand: string;
+    driverId: string;
+  }
 }
