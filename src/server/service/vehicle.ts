@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import Vehicle from '../models/vehicle';
+import { VehicleWithIDNotFound } from '../error/vehicle.service';
 
 import type { IDriverService } from './driver';
 
@@ -47,7 +48,7 @@ export default class VehicleService implements IVehicleService {
     });
 
     if (!vehicle) {
-      throw new Error('Vehicle with id not found');
+      throw new VehicleWithIDNotFound(id);
     }
 
     return vehicle;
