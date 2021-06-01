@@ -2,6 +2,8 @@ import me from './me';
 import users from './users';
 import parkingLot from './parking-lot';
 import parkingSlot from './parking-slot';
+import driver from './driver';
+import vehicle from './vehicle';
 
 import type {
   FastifyError,
@@ -36,6 +38,14 @@ export default function (
 
   fastify.register(parkingSlot, {
     prefix: 'parking/slots',
+  });
+
+  fastify.register(driver, {
+    prefix: 'driver',
+  });
+
+  fastify.register(vehicle, {
+    prefix: 'vehicle',
   });
 
   done();
