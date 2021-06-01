@@ -4,6 +4,8 @@ import { createConnection } from 'typeorm';
 import User from '../models/user';
 import ParkingLot from '../models/parking-lot';
 import ParkingSlot from '../models/parking-slot';
+import Driver from '../models/driver';
+import Vehicle from '../models/vehicle';
 
 import type { FastifyInstance } from 'fastify';
 
@@ -29,7 +31,7 @@ export default fp(
         username: POSTGRES_USER,
         password: POSTGRES_PASSWORD,
         database: POSTGRES_DB,
-        entities: [User, ParkingLot, ParkingSlot],
+        entities: [User, ParkingLot, ParkingSlot, Driver, Vehicle],
       });
 
       fastify.decorate('typeorm', connection);
