@@ -68,7 +68,7 @@ export default function LoginScreen(): JSX.Element {
       </Card>
       <p className="text-center text-gray-500 text-xs">
         <a href="https://github.com/EstebanBorai/resident-hub" target="_blank">
-          Thruway Parking Source
+          Resident-Hub Parking Source
         </a>
       </p>
     </section>
