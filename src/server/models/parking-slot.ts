@@ -9,7 +9,7 @@ import {
 
 import ParkingLot from './parking-lot';
 
-import type { Thruway } from '../../@types/thruway';
+import type { ResidentHub } from '../../@types/resident-hub';
 
 @Entity({ name: 'parking_slots' })
 export default class ParkingSlot {
@@ -41,7 +41,7 @@ export default class ParkingSlot {
   @ManyToOne(() => ParkingLot, (parkingLot) => parkingLot.slots)
   public parkingLotId: string;
 
-  public toPresentationLayer(): Thruway.ParkingSlot {
+  public toPresentationLayer(): ResidentHub.ParkingSlot {
     return {
       id: this.id,
       name: this.name,

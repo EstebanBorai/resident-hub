@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./docs/logo.png" height="160" width="160" />
-  <h1>thruway-parking</h1>
+  <h1>resident-hub</h1>
   <h4 align="center">
     🅿️ Parking Lot management web application for multiple purposes, with slot
     reservation, users and guests capabilities
@@ -9,9 +9,9 @@
 
 <div align="center">
 
-![Build](https://github.com/EstebanBorai/thruway-parking/workflows/build/badge.svg)
-![Test](https://github.com/EstebanBorai/thruway-parking/workflows/test/badge.svg)
-![Lint](https://github.com/EstebanBorai/thruway-parking/workflows/lint/badge.svg)
+![Build](https://github.com/EstebanBorai/resident-hub/workflows/build/badge.svg)
+![Test](https://github.com/EstebanBorai/resident-hub/workflows/test/badge.svg)
+![Lint](https://github.com/EstebanBorai/resident-hub/workflows/lint/badge.svg)
 
 </div>
 
@@ -75,7 +75,7 @@ Run this project with Docker using the `Dockerfile` included.
 First you must build the image using `docker build` command:
 
 ```bash
-PORT=3000 docker build -t thruway .
+PORT=3000 docker build -t resident-hub .
 ```
 
 Then run the container by using the `./bin/docker_run_default` script.

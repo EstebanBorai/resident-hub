@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import bcrypt from 'bcrypt';
 
-import type { Thruway } from '../../@types/thruway';
+import type { ResidentHub } from '../../@types/resident-hub';
 
 export enum Role {
   Admin = 'admin',
@@ -72,7 +72,7 @@ export default class User {
     return bcrypt.compare(plain, this.password);
   }
 
-  public toPresentationLayer(): Thruway.User {
+  public toPresentationLayer(): ResidentHub.User {
     return {
       id: this.id,
       email: this.email,

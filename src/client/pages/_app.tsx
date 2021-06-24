@@ -30,7 +30,7 @@ function App({
                     name="viewport"
                     content="initial-scale=1.0, width=device-width"
                   />
-                  <title>Thruway | Login</title>
+                  <title>Resident-Hub | Login</title>
                   <link rel="preconnect" href="https://fonts.gstatic.com" />
                   <link
                     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap"

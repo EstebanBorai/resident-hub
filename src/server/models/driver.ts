@@ -12,7 +12,7 @@ import {
 import User from './user';
 import Vehicle from './vehicle';
 
-import type { Thruway } from '../../@types/thruway';
+import type { ResidentHub } from '../../@types/resident-hub';
 
 @Entity({ name: 'drivers ' })
 export default class Driver {
@@ -68,7 +68,7 @@ export default class Driver {
   @JoinTable()
   public vehicleId: string;
 
-  public toPresentationLayer(): Thruway.Driver {
+  public toPresentationLayer(): ResidentHub.Driver {
     return {
       id: this.id,
       firstName: this.firstName,

@@ -1,6 +1,6 @@
 import { Role } from '../server/models/user';
 
-declare namespace Thruway {
+declare namespace ResidentHub {
   interface JwtToken {
     email: string;
     iat: number;

@@ -3,18 +3,18 @@
 # Sets environment variables as defined in ".env.sample" and runs
 # `docker run` command
 
-ADMIN_EMAIL='admin@thruway.com'
+ADMIN_EMAIL='admin@resident-hub.com'
 ADMIN_PASSWORD='root'
 NEXT_TELEMETRY_DISABLED=1
-JWT_TOKEN_COOKIE_NAME='thruway::token'
-JWT_REFRESH_TOKEN_COOKIE_NAME='thruway::refresh_token'
+JWT_TOKEN_COOKIE_NAME='resident-hub::token'
+JWT_REFRESH_TOKEN_COOKIE_NAME='resident-hub::refresh_token'
 JWT_EXPIRATION='15m'
 JWT_REFRESH_TOKEN_EXPIRATION='12h'
-JWT_PRIVATE_KEY='thruway'
+JWT_PRIVATE_KEY='resident-hub'
 APPLICATION_DOMAIN='0.0.0.0'
-COOKIE_SIGNATURE='thruway'
+COOKIE_SIGNATURE='resident-hub'
 PORT=3000
-MONGO_URL='mongodb://database/thruway'
+MONGO_URL='mongodb://database/resident-hub'
 
 docker run \
   -p $PORT:$PORT \
@@ -31,4 +31,4 @@ docker run \
   -e COOKIE_SIGNATURE=$COOKIE_SIGNATURE \
   -e PORT=$PORT \
   -e MONGO_URL=$MONGO_URL \
-  thruway
+  resident-hub

@@ -13,7 +13,7 @@ export default function Layout({ children, title }: Props): JSX.Element {
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <title>Thruway{title ? ' | ' + title : ''}</title>
+        <title>Resident-Hub{title ? ' | ' + title : ''}</title>
       </Head>
       <div className={styles.dashboard_layout}>
         <Header />

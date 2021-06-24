@@ -7,14 +7,14 @@ import {
   setLocalStorageValue,
 } from '../utils/local-storage';
 
-import type { Thruway } from '../../@types/thruway';
+import type { ResidentHub } from '../../@types/resident-hub';
 
 export type Props = {
   children: JSX.Element;
 };
 
 export interface UserContext {
-  user: Thruway.User | null;
+  user: ResidentHub.User | null;
   login(email: string, password: string): Promise<void>;
   resumeSession(): Promise<void>;
 }
@@ -24,9 +24,9 @@ const UserContext = createContext<UserContext>(null);
 UserContext.displayName = 'UserContext';
 
 export function UserContextProvider({ children }: Props): JSX.Element {
-  const [user, setUser] = useState<Thruway.User | null>(null);
+  const [user, setUser] = useState<ResidentHub.User | null>(null);
 
-  const openSession = (user: Thruway.User) => {
+  const openSession = (user: ResidentHub.User) => {
     setUser(user);
     setLocalStorageValue(Key.User, user);
   };
