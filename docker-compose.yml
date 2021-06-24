@@ -9,7 +9,6 @@ services:
       - .env
     environment:
       - NODE_ENV=production
-      - MONGO_URL=mongodb://database/thruway
 
   database:
     build: ./docker/database
