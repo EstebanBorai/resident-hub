@@ -8,7 +8,7 @@ import type {
 import httpResponse from '../../../utils/http-response';
 import { UserByEmailNotFound } from '../../../error/user.service';
 
-import type { Thruway } from '../../../../@types/thruway';
+import type { ResidentHub } from '../../../../@types/resident-hub';
 
 export default function (
   fastify: FastifyInstance,
@@ -17,7 +17,7 @@ export default function (
 ): void {
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const token = request.user as Thruway.JwtToken;
+      const token = request.user as ResidentHub.JwtToken;
       const user = await fastify.services.user.findByEmail(token.email);
 
       return httpResponse.ok(reply, user.toPresentationLayer());

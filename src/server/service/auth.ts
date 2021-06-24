@@ -8,7 +8,7 @@ import {
 import { ExpiredTokenProvidedForRefresh } from '../error/auth.service';
 
 import type { SignOptions } from 'jsonwebtoken';
-import type { Thruway } from '../../@types/thruway';
+import type { ResidentHub } from '../../@types/resident-hub';
 import type { Credentials } from '../utils/basic-auth';
 import type { Role } from '../models/user';
 import type { IUserService } from './user';
@@ -132,7 +132,7 @@ export default class AuthService implements IAuthService {
     const claims = jsonwebtoken.verify(
       token,
       this.privateKey,
-    ) as Thruway.JwtToken;
+    ) as ResidentHub.JwtToken;
     await this.userService.clearRefreshToken(claims.email);
   }
 }

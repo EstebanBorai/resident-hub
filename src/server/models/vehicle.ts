@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import Driver from './driver';
 
-import type { Thruway } from '../../@types/thruway';
+import type { ResidentHub } from '../../@types/resident-hub';
 
 @Entity({ name: 'vehicles' })
 export default class Vehicle {
@@ -63,7 +63,7 @@ export default class Vehicle {
   @JoinTable()
   public driverId: string;
 
-  public toPresentationLayer(): Thruway.Vehicle {
+  public toPresentationLayer(): ResidentHub.Vehicle {
     return {
       id: this.id,
       license: this.license,

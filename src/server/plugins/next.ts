@@ -4,7 +4,7 @@ import Next from 'next';
 
 import type { ServerResponse } from 'http';
 import type { FastifyInstance, RegisterOptions } from 'fastify';
-import type { Thruway } from '../../@types/thruway';
+import type { ResidentHub } from '../../@types/resident-hub';
 
 export default fp(
   async (
@@ -44,9 +44,9 @@ export default fp(
       try {
         await req.jwtVerify();
 
-        const user = req.user as Thruway.JwtToken;
+        const user = req.user as ResidentHub.JwtToken;
 
-        if (user.email !== 'eborai@thruway.com') {
+        if (user.email !== 'eborai@resident-hub.com') {
           // If the user doesn't fill up requirements then
           // we redirect them
           return reply.redirect(303, '/401');
